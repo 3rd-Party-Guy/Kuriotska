@@ -20,11 +20,13 @@ const int PerlinNoise::primes[MAX_PRIME_INDEX][3] = {
 		{ 997169939, 842027887, 423882827 }
 };
 
-PerlinNoise::PerlinNoise() : primeIndex(0) { }
-PerlinNoise::PerlinNoise(int primeSeed) {
+int PerlinNoise::primeIndex = 0;
+
+void PerlinNoise::SetPrimeIndex(int primeSeed) {
 	if (primeSeed > MAX_PRIME_INDEX - 1 || primeSeed < 0) {
 		throw std::runtime_error("Fatal Error: Perlin Noise OBJ generated with invalid Prime Index.");
 	}
+
 	primeIndex = primeSeed;
 }
 

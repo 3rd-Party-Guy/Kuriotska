@@ -18,8 +18,7 @@ MapNodeType MapNode::GetType() const { return type; }
 MapNode::MapNode() : isDiscovered(false), type(MapNodeType::Water) { }
 
 MapNode::MapNode(int x, int y) : isDiscovered(false) {
-	PerlinNoise pn(9);
-	int coordVal = MapDoubleToInt(pn.GetCoordValue2D(x, y) * 10, 0.0, 1.0, 0, 100);
+	int coordVal = MapDoubleToInt(PerlinNoise::GetCoordValue2D(x, y) * 10, 0.0, 1.0, 0, 100);
 	type = NodeTypeValLookup(coordVal);
 }
 

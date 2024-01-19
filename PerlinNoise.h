@@ -11,14 +11,13 @@ class PerlinNoise
 {
 private:
 	static const int primes[MAX_PRIME_INDEX][3];
-	int primeIndex;
+	static int primeIndex;
 
-	double Interpolate(double a, double b, double x);
-	double Noise(int i, int x, int y);
-	double SmoothNoise(int i, int x, int y);
-	double InterpolatedNoise(int i, double x, double y);
+	static double Interpolate(double a, double b, double x);
+	static double Noise(int i, int x, int y);
+	static double SmoothNoise(int i, int x, int y);
+	static double InterpolatedNoise(int i, double x, double y);
 public:
-	PerlinNoise();
-	PerlinNoise(int primeIndex);
-	double GetCoordValue2D(double x, double y);
+	static void SetPrimeIndex(int index);
+	static double GetCoordValue2D(double x, double y);
 };

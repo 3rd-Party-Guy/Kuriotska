@@ -1,19 +1,25 @@
-#include <iostream>
-#include <unordered_map>
-#include <utility>
-#include <time.h>
+#include <curses.h>
 
 #include "Map.h"
 #include "MapRenderer.h"
+#include "PerlinNoise.h"
 
 int main(int argc, const char** argv) {
+	initscr();
+	cbreak();
+	noecho();
+	refresh();
+
+	getch();
+
 	// Initialization
-	srand(time(0));
+	PerlinNoise::SetPrimeIndex(5);
 
-	Map map(80, 40);
+	Map map(20, 20);
 	MapRenderer mapRenderer(map);
-
 	mapRenderer.RenderMap();
 
-	return 0;
+	getch();
+
+	exit(0);
 }
