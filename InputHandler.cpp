@@ -17,14 +17,14 @@ InputHandler::InputHandler(Player* player) : player(player) {
 	curChar = 0;
 
 	InputActionLookup = {
+		{ 'w', [this]() { MoveActionRel(0, -1); } },
+		{ 'W', [this]() { MoveActionRel(0, -1); } },
 		{ 'a', [this]() { MoveActionRel(-1, 0); } },
 		{ 'A', [this]() { MoveActionRel(-1, 0); } },
-		{ 's', [this]() { MoveActionRel(0, -1); } },
-		{ 'S', [this]() { MoveActionRel(0, -1); } },
+		{ 's', [this]() { MoveActionRel(0, 1); } },
+		{ 'S', [this]() { MoveActionRel(0, 1); } },
 		{ 'd', [this]() { MoveActionRel(1, 0); } },
-		{ 'D', [this]() { MoveActionRel(1, 0); } },
-		{ 'w', [this]() { MoveActionRel(0, 1); } },
-		{ 'W', [this]() { MoveActionRel(0, 1); } }
+		{ 'D', [this]() { MoveActionRel(1, 0); } }
 	};
 }
 

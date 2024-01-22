@@ -29,7 +29,6 @@ int main(int argc, const char** argv) {
 		inputHandler.HandleInput();
 		mapRenderer.RenderMap();
 	}
-	getch();
 
 	exit(0);
 }
