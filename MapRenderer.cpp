@@ -37,7 +37,7 @@ void MapRenderer::RenderMap() const {
 				continue;
 			}
 
-			MapNodeType curNodeType = map->GetNode(x, y)->GetType();
+			const MapNodeType curNodeType = map->GetNode(x, y)->GetType();
 			std::unordered_map<MapNodeType, char>::const_iterator iter = mapNodeTypeGraphicLookup.find(curNodeType);
 			if (iter != mapNodeTypeGraphicLookup.end())
 				mvaddch(y, x, mapNodeTypeGraphicLookup[curNodeType]);

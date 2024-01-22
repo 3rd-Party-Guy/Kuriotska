@@ -3,12 +3,11 @@
 
 #include "Map.h"
 
-MapNode* Map::GetNode(size_t x, size_t y) const {
+const MapNode* Map::GetNode(size_t x, size_t y) const {
 	auto iter = map.find(std::make_pair(x, y));
-	MapNode* node = &(iter->second);
 
 	if (iter != map.end()) {
-		return node;
+		return &(iter->second);
 	}
 
 	return nullptr;
