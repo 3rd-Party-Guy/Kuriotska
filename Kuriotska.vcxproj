@@ -139,19 +139,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Kuriotska.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapNode.cpp" />
     <ClCompile Include="MapRenderer.cpp" />
     <ClCompile Include="PerlinNoise.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Entity.h" />
+    <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapNode.h" />
+    <ClInclude Include="MapNodeType.h" />
     <ClInclude Include="MapRenderer.h" />
     <ClInclude Include="Misc.h" />
     <ClInclude Include="PerlinNoise.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Vector2.h" />
   </ItemGroup>

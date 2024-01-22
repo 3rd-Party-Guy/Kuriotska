@@ -1,12 +1,9 @@
 #pragma once
 
-enum class MapNodeType {
-	Grass,
-	Stone,
-	Water,
-};
+#include "Entity.h"
+#include "MapNodeType.h"
 
-class MapNode
+class MapNode : public Entity
 {
 private:
 	bool isDiscovered;
@@ -14,9 +11,7 @@ private:
 public:
 	bool IsDiscovered() const;
 	MapNodeType GetType() const;
-	MapNode();
-	MapNode(int x, int y);
-	MapNode(MapNodeType type);
+	MapNode(Vector2<int> position);
+	MapNode(Vector2<int>, MapNodeType type);
 	~MapNode();
 };
-

@@ -1,4 +1,5 @@
 #pragma once
+
 template<class T>
 class Vector2
 {
@@ -7,5 +8,13 @@ private:
 public:
 	T GetX() const;
 	T GetY() const;
+	void SetX(T newX);
+	void SetY(T newY);
+	void Set(T newX, T newY);
 	Vector2(T x, T y);
+
+	// operator=
+	// operator==
+	// operator+
+	// operator-
 };

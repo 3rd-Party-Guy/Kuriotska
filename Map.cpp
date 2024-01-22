@@ -3,22 +3,27 @@
 
 #include "Map.h"
 
-/*
-	This function allows for lazy-initiation of the Nodes
-*/
-MapNode Map::GetNode(size_t x, size_t y) {
-	try {
-		return map.at({ x, y });
+MapNode* Map::GetNode(size_t x, size_t y) const {
+	auto iter = map.find(std::make_pair(x, y));
+	MapNode* node = &(iter->second);
+
+	if (iter != map.end()) {
+		return node;
 	}
-	catch (const std::out_of_range&) {
-		auto res = map.emplace(std::make_pair(x, y), MapNode(x, y));
-		return res.first->second;
+
+	return nullptr;
+}
+
+void Map::GenerateMap() {
+	for (size_t x = 0; x < sizeX; ++x)
+	for (size_t y = 0; y < sizeY; ++y) {
+		map.emplace(std::make_pair(x, y), MapNode(Vector2<int>(x, y)));
 	}
 }
 
 Map::Map() : sizeX(10), sizeY(10) {
+	GenerateMap();
 }
 Map::Map(size_t sizeX, size_t sizeY) : sizeX(sizeX), sizeY(sizeY) {
-}
-Map::~Map() {
+	GenerateMap();
 }

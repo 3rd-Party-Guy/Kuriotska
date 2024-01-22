@@ -15,13 +15,12 @@ bool MapNode::IsDiscovered() const { return isDiscovered; }
 
 MapNodeType MapNode::GetType() const { return type; }
 
-MapNode::MapNode() : isDiscovered(false), type(MapNodeType::Water) { }
+MapNode::MapNode(Vector2<int> position) : Entity(position), isDiscovered(false), type(MapNodeType::Water) {
 
-MapNode::MapNode(int x, int y) : isDiscovered(false) {
-	int coordVal = MapDoubleToInt(PerlinNoise::GetCoordValue2D(x, y) * 10, 0.0, 1.0, 0, 100);
+	int coordVal = MapDoubleToInt(PerlinNoise::GetCoordValue2D(position.GetX(), position.GetY()) * 10, 0.0, 1.0, 0, 100);
 	type = NodeTypeValLookup(coordVal);
 }
 
-MapNode::MapNode(MapNodeType type) : isDiscovered(false), type(type) { }
+MapNode::MapNode(Vector2<int> position, MapNodeType type) : Entity(position), isDiscovered(false), type(type) { }
 
 MapNode::~MapNode() { }
