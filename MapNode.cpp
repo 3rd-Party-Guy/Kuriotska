@@ -8,7 +8,7 @@
 MapNodeType NodeTypeValLookup(int val) {
 	if (val <= 25) return MapNodeType::Water;
 	if (val <= 75) return MapNodeType::Grass;
-	return MapNodeType::Stone;
+	return MapNodeType::Sand;
 }
 
 bool MapNode::IsDiscovered() const { return isDiscovered; }
@@ -22,5 +22,4 @@ MapNode::MapNode(Vector2<int> position) : Entity(position), isDiscovered(false),
 }
 
 MapNode::MapNode(Vector2<int> position, MapNodeType type) : Entity(position), isDiscovered(false), type(type) { }
-
 MapNode::~MapNode() { }

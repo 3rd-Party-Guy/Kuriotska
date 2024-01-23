@@ -14,3 +14,4 @@ template <class T> void Vector2<T>::Set(T newX, T newY) { x = newX;  y = newY; }
 template class Vector2<int>;
 template class Vector2<float>;
 template class Vector2<double>;
+template class Vector2<unsigned short>;

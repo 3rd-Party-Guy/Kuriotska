@@ -9,7 +9,7 @@
 #include "PerlinNoise.h"
 
 #define MAP_WINDOW_WIDTH 40
-#define MAP_WINDOW_HEIGHT 25
+#define MAP_WINDOW_HEIGHT 20
 
 int main(int argc, const char** argv) {
 	printf("\033[?1003h\n");
@@ -19,6 +19,7 @@ int main(int argc, const char** argv) {
 	cbreak();
 	noecho();
 	nodelay(stdscr, true);
+	keypad(stdscr, true);
 	curs_set(0);
 
 	if (!has_colors())
@@ -37,7 +38,7 @@ int main(int argc, const char** argv) {
 	// Initialization game
 	PerlinNoise::SetPrimeIndex(1);
 	Player player;
-	Map map(40, 20);
+	Map map(40, 25);
 	MapRenderer mapRenderer(&map, &player, MAP_WINDOW_WIDTH, MAP_WINDOW_HEIGHT);
 	InputHandler inputHandler(&player);
 
@@ -45,6 +46,7 @@ int main(int argc, const char** argv) {
 	while (run) {
 		inputHandler.HandleInput();
 		mapRenderer.RenderMap();
+		mapRenderer.CenterSelf();
 	}
 
 	exit(0);

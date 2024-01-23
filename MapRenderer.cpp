@@ -8,20 +8,25 @@
 
 std::unordered_map<MapNodeType, char> MapRenderer::mapNodeTypeGraphicLookup = {
 	{ MapNodeType::Grass, 'g' },
-	{ MapNodeType::Stone, 's' },
+	{ MapNodeType::Sand, 's' },
 	{ MapNodeType::Water, '~' },
 	{ MapNodeType::Player, '+' }
 };
 
 std::unordered_map<MapNodeType, int> MapRenderer::mapNodeTypeColorLookup = {
 	{ MapNodeType::Grass, 5 },
-	{ MapNodeType::Stone, 3 },
+	{ MapNodeType::Sand, 3 },
 	{ MapNodeType::Water, 2 },
 	{ MapNodeType::Player, 1 }
 };
 
+void MapRenderer::CenterSelf() {
+	int plaeyerPosDifX = position.GetX() - player->GetPosition().GetX();
+	int plaeyerPosDifY = position.GetY() - player->GetPosition().GetY();
+}
+
 MapRenderer::MapRenderer(Map* map, Player* player, unsigned short winSizeX, unsigned short winSizeY) :
-		map(map), player(player), winSizeX(winSizeX), winSizeY(winSizeY) {
+	map(map), player(player), winSize(winSizeX, winSizeY), position(player->GetPosition()) {
 	int maxX, maxY;
 	getmaxyx(stdscr, maxY, maxX);
 
@@ -29,8 +34,6 @@ MapRenderer::MapRenderer(Map* map, Player* player, unsigned short winSizeX, unsi
 	int startY = (maxY - winSizeY) / 2;
 
 	mapWindow = newwin(winSizeY, winSizeX, startY, startX);
-	keypad(mapWindow, true);
-	box(mapWindow, 0, 0);
 }
 
 MapRenderer::~MapRenderer() {
@@ -42,8 +45,8 @@ void MapRenderer::RenderMap() const {
 
 	const Vector2<int> curPlayerPos = player->GetPosition();
 
-	for (size_t y = 0; y < map->sizeY; ++y) {
-		for (size_t x = 0; x < map->sizeX; ++x) {
+	for (size_t y = 0; y < winSize.GetY(); ++y) {
+		for (size_t x = 0; x < winSize.GetX(); ++x) {
 			if (x == curPlayerPos.GetX() && y == curPlayerPos.GetY()) {
 				int colorID = mapNodeTypeColorLookup[MapNodeType::Player];
 				wattron(mapWindow, COLOR_PAIR(colorID));

@@ -2,7 +2,7 @@
 
 enum class MapNodeType {
 	Grass,
-	Stone,
+	Sand,
 	Water,
 	Player
 };
