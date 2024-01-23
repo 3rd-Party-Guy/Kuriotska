@@ -2,36 +2,28 @@
 
 #include "InputHandler.h"
 
-std::unordered_map<int, InputAction> InputHandler::InputActionLookup;
+std::unordered_map<int, std::unique_ptr<Command>> InputHandler::InputActionLookup;
 
 void InputHandler::HandleInput() {
 	curChar = getch();
 	if (curChar == ERR) return;
 
-	std::unordered_map<int, InputAction>::const_iterator iter = InputActionLookup.find(curChar);
+	auto iter = InputActionLookup.find(curChar);
 	if (iter != InputActionLookup.end())
-		iter->second();
+		iter->second->execute(player);
 }
 
 InputHandler::InputHandler(Player* player) : player(player) {
 	curChar = 0;
 
-	InputActionLookup = {
-		{ 'w', [this]() { MoveActionRel(0, -1); } },
-		{ 'W', [this]() { MoveActionRel(0, -1); } },
-		{ 'a', [this]() { MoveActionRel(-1, 0); } },
-		{ 'A', [this]() { MoveActionRel(-1, 0); } },
-		{ 's', [this]() { MoveActionRel(0, 1); } },
-		{ 'S', [this]() { MoveActionRel(0, 1); } },
-		{ 'd', [this]() { MoveActionRel(1, 0); } },
-		{ 'D', [this]() { MoveActionRel(1, 0); } }
-	};
-}
-
-void InputHandler::MoveActionRel(int x, int y) {
-	player->MoveRel(x, y);
-}
-
-void InputHandler::MoveActionAbs(int x, int y) {
-	player->MoveAbs(x, y);
+	InputActionLookup.emplace('w', std::make_unique<MoveCommand>(0, -1, false)); 
+	InputActionLookup.emplace('W', std::make_unique<MoveCommand>(0, -1, false));
+	InputActionLookup.emplace('a', std::make_unique<MoveCommand>(-1, 0, false));
+	InputActionLookup.emplace('A', std::make_unique<MoveCommand>(-1, 0, false));
+	InputActionLookup.emplace('s', std::make_unique<MoveCommand>(0, 1, false));
+	InputActionLookup.emplace('S', std::make_unique<MoveCommand>(0, 1, false));
+	InputActionLookup.emplace('d', std::make_unique<MoveCommand>(1, 0, false));
+	InputActionLookup.emplace('D', std::make_unique<MoveCommand>(1, 0, false));
+	InputActionLookup.emplace('q', std::make_unique<ExitCommand>());
+	InputActionLookup.emplace(27, std::make_unique<ExitCommand>());
 }

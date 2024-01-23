@@ -11,8 +11,10 @@ private:
 	WINDOW* mapWindow;
 	Map* map;
 	Player* player;
+	const unsigned short winSizeX;
+	const unsigned short winSizeY;
 public:
-	MapRenderer(Map* map, Player* player);
+	MapRenderer(Map* map, Player* player, unsigned short winSizeX, unsigned short winSizeY);
 	~MapRenderer();
 	void RenderMap() const;
 };
