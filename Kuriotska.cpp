@@ -16,18 +16,31 @@
 
 bool isInitialized = false;
 
-void ChangeInitColorRec(bool isOn) {
+std::string loadingStatusArr[10] = {
+	"Generating World...\nStay put!",
+	"Still generating...\nThis can take some time.",
+	"Just wait a second...",
+	"What I'm doing is really important right now...",
+	"Be patient!!!!!",
+	"... So how's your day?",
+	"Just kidding. I don't care.",
+	"Okay that was a bit mean...\nSorry...",
+	"This is getting awkward...",
+	"Maybe go drink a coffee or something?"
+};
+
+void ChangeInitColorRec(bool isOn, int statusIndex) {
 	using namespace std::chrono_literals;
 	if (isInitialized) return;
 
 	clear();
 	if (isOn) attroff(A_STANDOUT);
 	else attron(A_STANDOUT);
-	addstr("Genating World...\nStay put!");
+	addstr(loadingStatusArr[statusIndex].c_str());
 	refresh();
 
-	std::this_thread::sleep_for(1s);
-	ChangeInitColorRec(!isOn);
+	std::this_thread::sleep_for(2s);
+	ChangeInitColorRec(!isOn, (statusIndex + 1) % 10);
 }
 
 int main(int argc, const char** argv) {
@@ -54,12 +67,12 @@ int main(int argc, const char** argv) {
 
 	// Initialization game
 	attron(COLOR_PAIR(4));
-	std::thread loadingThread(ChangeInitColorRec, true);
+	std::thread loadingThread(ChangeInitColorRec, true, 0);
 
-	PerlinNoise::SetPrimeIndex(Misc::RandomInRange(0, 10));
+	PerlinNoise::SetPrimeIndex(Misc::RandomInRange(0, 9));
 	Map map(1000, 1000);
 
-	// Spawn Player on Sand
+	// Spawn Player on Random Sand Node
 	Player player(0, 0);
 	while (true) {
 		Vector2<int> randPos(Misc::RandomInRange(0, 999), Misc::RandomInRange(0, 999));
@@ -69,6 +82,7 @@ int main(int argc, const char** argv) {
 			break;
 		}
 	}
+
 	MapRenderer mapRenderer(&map, &player, MAP_WINDOW_WIDTH, MAP_WINDOW_HEIGHT);
 	InputHandler inputHandler(&player);
 	Debugger::instance();

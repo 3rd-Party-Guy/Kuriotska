@@ -20,7 +20,7 @@ struct Misc {
 	}
 
 	static int RandomInRange(const int minInclusive, const int maxInclusive) {
-		static thread_local std::mt19937 gen;
+		static thread_local std::mt19937 gen(std::random_device{}());
 		std::uniform_int_distribution<int> dist(minInclusive, maxInclusive);
 
 		return dist(gen);

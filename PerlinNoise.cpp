@@ -24,7 +24,8 @@ int PerlinNoise::primeIndex = 0;
 
 void PerlinNoise::SetPrimeIndex(int primeSeed) {
 	if (primeSeed > MAX_PRIME_INDEX - 1 || primeSeed < 0) {
-		throw std::runtime_error("Fatal Error: Perlin Noise OBJ generated with invalid Prime Index.");
+		printf("Fatal Error: Perlin Noise OBJ generated with invalid Prime Index.");
+		exit(0);
 	}
 
 	primeIndex = primeSeed;
