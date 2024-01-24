@@ -7,11 +7,11 @@
 
 class Map {
 private:
-	std::map<std::pair<size_t, size_t>, MapNode> map;
+	std::map<std::pair<int, int>, MapNode> map;
 	void GenerateMap();
 public:
-	const size_t sizeX, sizeY;
-	const MapNode* GetNode(size_t x, size_t y) const;
+	const int sizeX, sizeY;
+	const MapNode* GetNode(int x, int y) const;
 	Map();
-	Map(size_t sizeX, size_t sizeY);
+	Map(int sizeX, int sizeY);
 };

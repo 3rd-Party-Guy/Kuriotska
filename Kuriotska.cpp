@@ -7,6 +7,8 @@
 #include "MapRenderer.h"
 #include "InputHandler.h"
 #include "PerlinNoise.h"
+#include "Debugger.h"
+#include "Misc.h"
 
 #define MAP_WINDOW_WIDTH 40
 #define MAP_WINDOW_HEIGHT 20
@@ -36,11 +38,12 @@ int main(int argc, const char** argv) {
 	refresh();
 
 	// Initialization game
-	PerlinNoise::SetPrimeIndex(1);
-	Player player;
-	Map map(40, 25);
+	PerlinNoise::SetPrimeIndex(Misc::RandomInRange(0, 10));
+	Player player(120, 120);
+	Map map(1000, 1000);
 	MapRenderer mapRenderer(&map, &player, MAP_WINDOW_WIDTH, MAP_WINDOW_HEIGHT);
 	InputHandler inputHandler(&player);
+	Debugger::instance();
 
 	bool run = true;
 	while (run) {

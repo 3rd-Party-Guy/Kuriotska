@@ -11,5 +11,5 @@ private:
 public:
 	void MoveAbs(int x, int y);
 	void MoveRel(int xVel, int yVel);
-	Player();
+	Player(int x, int y);
 };

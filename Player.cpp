@@ -8,7 +8,7 @@ void Player::MoveRel(int xVel, int yVel) {
 	SetPositionRel(xVel, yVel);
 }
 
-Player::Player() {
+Player::Player(int x, int y) {
 	hp = startHP;
-	SetPositionAbs(10, 10);
+	SetPositionAbs(x, y);
 }

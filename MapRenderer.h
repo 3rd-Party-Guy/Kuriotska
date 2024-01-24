@@ -16,6 +16,12 @@ private:
 
 	const Vector2<unsigned short> winSize;
 	Vector2<int> position;
+	int centerBuffer = 3;																		// When to Re-Center Window (see definition of CenterSelf())
+
+	int minPlayerPosDifX;
+	int maxPlayerPosDifX;
+	int minPlayerPosDifY;
+	int maxPlayerPosDifY;
 
 	static std::unordered_map<MapNodeType, char> mapNodeTypeGraphicLookup;
 	static std::unordered_map<MapNodeType, int> mapNodeTypeColorLookup;

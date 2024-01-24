@@ -3,7 +3,7 @@
 
 #include "Map.h"
 
-const MapNode* Map::GetNode(size_t x, size_t y) const {
+const MapNode* Map::GetNode(int x, int y) const {
 	auto iter = map.find(std::make_pair(x, y));
 
 	if (iter != map.end()) {
@@ -14,8 +14,8 @@ const MapNode* Map::GetNode(size_t x, size_t y) const {
 }
 
 void Map::GenerateMap() {
-	for (size_t x = 0; x < sizeX; ++x)
-	for (size_t y = 0; y < sizeY; ++y) {
+	for (int x = 0; x < sizeX; ++x)
+	for (int y = 0; y < sizeY; ++y) {
 		map.emplace(std::make_pair(x, y), MapNode(Vector2<int>(x, y)));
 	}
 }
@@ -23,6 +23,6 @@ void Map::GenerateMap() {
 Map::Map() : sizeX(10), sizeY(10) {
 	GenerateMap();
 }
-Map::Map(size_t sizeX, size_t sizeY) : sizeX(sizeX), sizeY(sizeY) {
+Map::Map(int sizeX, int sizeY) : sizeX(sizeX), sizeY(sizeY) {
 	GenerateMap();
 }
