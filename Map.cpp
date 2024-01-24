@@ -6,9 +6,17 @@
 const MapNode* Map::GetNode(int x, int y) const {
 	auto iter = map.find(std::make_pair(x, y));
 
-	if (iter != map.end()) {
+	if (iter != map.end())
 		return &(iter->second);
-	}
+
+	return nullptr;
+}
+
+const MapNode* Map::GetNode(Vector2<int> pos) const {
+	auto iter = map.find(std::make_pair(pos.GetX(), pos.GetY()));
+
+	if (iter != map.end())
+		return &(iter->second);
 
 	return nullptr;
 }

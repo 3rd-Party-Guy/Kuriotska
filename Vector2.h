@@ -11,6 +11,8 @@ public:
 	void SetX(T newX);
 	void SetY(T newY);
 	void Set(T newX, T newY);
+	void Set(Vector2<T> newVec);
+	Vector2();
 	Vector2(T x, T y);
 
 	// operator=

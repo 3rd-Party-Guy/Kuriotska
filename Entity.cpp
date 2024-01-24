@@ -11,6 +11,10 @@ void Entity::SetPositionAbs(int newX, int newY) {
 	position.Set(newX, newY);
 }
 
+void Entity::SetPositionAbs(Vector2<int> newPos) {
+	position.Set(newPos);
+}
+
 void Entity::SetPositionRel(int xVel, int yVel) {
 	position.Set(position.GetX() + xVel, position.GetY() + yVel);
 }

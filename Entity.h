@@ -11,5 +11,6 @@ public:
 	Entity(Vector2<int> position);
 	Vector2<int> GetPosition() const;
 	void SetPositionAbs(int newX, int newY);
+	void SetPositionAbs(Vector2<int> newPos);
 	void SetPositionRel(int xVel, int yVel);
 };
