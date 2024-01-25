@@ -151,6 +151,7 @@
     <ClCompile Include="Observable.cpp" />
     <ClCompile Include="PerlinNoise.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerInfoRenderer.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="Vector2.cpp" />
   </ItemGroup>
@@ -169,6 +170,7 @@
     <ClInclude Include="Observer.h" />
     <ClInclude Include="PerlinNoise.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerInfoRenderer.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Source.h" />
     <ClInclude Include="Vector2.h" />

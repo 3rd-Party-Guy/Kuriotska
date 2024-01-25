@@ -79,7 +79,7 @@ void MapRenderer::RenderMap() const {
 			int mapWinCoordX = x + halfWinX;
 
 			// Handle Outside Bounds
-			if (mapCoordX <= 0 || mapCoordX >= map->sizeX || mapCoordY <= 0 || mapCoordY >= map->sizeY) {
+			if (mapCoordX < 0 || mapCoordX >= map->sizeX || mapCoordY < 0 || mapCoordY >= map->sizeY) {
 				continue;
 			}
 

@@ -33,6 +33,8 @@ void Player::SetPositionRel(int xVel, int yVel) {
 	Vector2<int> newPos = GetPosition() + Vector2<int>(xVel, yVel);
 	
 	const MapNode* newNode = map->GetNode(newPos);
+	if (newNode == nullptr)	// out of bounds
+		return;
 	isInWater = (newNode->GetType() == MapNodeType::Water);
 
 	Entity::SetPositionRel(xVel, yVel);
