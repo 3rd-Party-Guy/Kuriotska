@@ -65,6 +65,8 @@ int main(int argc, const char** argv) {
 	init_pair(3, COLOR_BLACK, COLOR_YELLOW);
 	init_pair(4, COLOR_WHITE, COLOR_RED);
 	init_pair(5, COLOR_WHITE, COLOR_GREEN);
+	init_pair(6, COLOR_RED, COLOR_BLACK);
+	init_pair(7, COLOR_BLUE, COLOR_BLACK);
 
 	// --- INITIALIZATION START ---
 	attron(COLOR_PAIR(4));
@@ -100,6 +102,7 @@ int main(int argc, const char** argv) {
 		inputHandler.HandleInput();
 		mapRenderer.RenderMap();
 		mapRenderer.CenterSelf();
+		infoRenderer.RenderInfo();
 		run = player.IsAlive();
 	}
 

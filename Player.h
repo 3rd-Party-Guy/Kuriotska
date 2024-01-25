@@ -24,6 +24,8 @@ private:
 public:
 	bool IsAlive() const;
 	void SetPositionRel(int xVel, int yVel) override;
+	int GetHealth() const;
+	int GetAir() const;
 	Player(const Map* map, int x, int y);
 	~Player();
 };
