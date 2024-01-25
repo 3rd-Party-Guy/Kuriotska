@@ -1,15 +1,29 @@
 #pragma once
 
-#include "Entity.h"
+#include <thread>
 
-class Player : public Entity
+#include "Entity.h"
+#include "Observer.h"
+#include "Event.h"
+#include "Map.h"
+#include "Source.h"
+
+class Player : public Entity, Observer
 {
 private:
-	int hp;
-	const int startHP = 100;
+	bool isAlive;
+	Source health;
+	Source air;
+	const Map* map;
+	virtual void OnNotify(const Entity* entity, Event event);
 
+	std::thread airThread;
+	bool isInWater;
+	float waterAirTime = 0.25f;								// In Seconds
+	void ManageAir();
 public:
-	void MoveAbs(int x, int y);
-	void MoveRel(int xVel, int yVel);
-	Player(int x, int y);
+	bool IsAlive() const;
+	void SetPositionRel(int xVel, int yVel) override;
+	Player(const Map* map, int x, int y);
+	~Player();
 };

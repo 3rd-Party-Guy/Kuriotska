@@ -15,8 +15,8 @@ public:
 	Vector2();
 	Vector2(T x, T y);
 
-	// operator=
-	// operator==
-	// operator+
-	// operator-
+	inline void operator=(const Vector2<T>& other);
+	inline bool operator==(const Vector2<T>& other) const;
+	inline Vector2<T> operator+(const Vector2<T>& other) const;
+	inline Vector2<T> operator-(const Vector2<T>& other) const;
 };

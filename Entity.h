@@ -6,11 +6,14 @@ class Entity
 {
 private:
 	Vector2<int> position;
+protected:
+	bool isPlayer;
 public:
 	Entity();
 	Entity(Vector2<int> position);
 	Vector2<int> GetPosition() const;
-	void SetPositionAbs(int newX, int newY);
-	void SetPositionAbs(Vector2<int> newPos);
-	void SetPositionRel(int xVel, int yVel);
+	virtual void SetPositionAbs(int newX, int newY);
+	virtual void SetPositionAbs(Vector2<int> newPos);
+	virtual void SetPositionRel(int xVel, int yVel);
+	virtual void SetPositionRel(Vector2<int> velocity);
 };

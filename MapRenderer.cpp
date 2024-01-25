@@ -8,7 +8,6 @@
 
 #include "MapRenderer.h"
 #include "Vector2.h"
-#include "Debugger.h"
 
 std::unordered_map<MapNodeType, char> MapRenderer::mapNodeTypeGraphicLookup = {
 	{ MapNodeType::Grass, 'g' },
@@ -52,8 +51,6 @@ void MapRenderer::CenterSelf() {
 
 	debugInfo << playerPosDifX << ", " << playerPosDifY << "\n" <<
 		minPlayerPosDifX << ", " << maxPlayerPosDifX << ", " << minPlayerPosDifY << ", " << maxPlayerPosDifY;
-
-	Debugger::instance().ShowInfo(debugInfo.str());
 
 	if (playerPosDifX <= minPlayerPosDifX)
 		position.SetX(position.GetX() + winSize.GetX() - centerBuffer * 2);

@@ -6,7 +6,7 @@
 
 MapNodeType NodeTypeValLookup(int val) {
 	if (val <= 25) return MapNodeType::Water;
-	if (val <= 75) return MapNodeType::Sand;
+	if (val <= 50) return MapNodeType::Sand;
 	return MapNodeType::Grass;
 }
 

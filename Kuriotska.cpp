@@ -73,7 +73,7 @@ int main(int argc, const char** argv) {
 	Map map(1000, 1000);
 
 	// Spawn Player on Random Sand Node
-	Player player(0, 0);
+	Player player(&map, 0, 0);
 	while (true) {
 		Vector2<int> randPos(Misc::RandomInRange(0, 999), Misc::RandomInRange(0, 999));
 		const MapNode* randNode = map.GetNode(randPos);
@@ -85,7 +85,7 @@ int main(int argc, const char** argv) {
 
 	MapRenderer mapRenderer(&map, &player, MAP_WINDOW_WIDTH, MAP_WINDOW_HEIGHT);
 	InputHandler inputHandler(&player);
-	Debugger::instance();
+	//Debugger::instance();
 
 	isInitialized = true;
 	clear();
@@ -96,6 +96,7 @@ int main(int argc, const char** argv) {
 		inputHandler.HandleInput();
 		mapRenderer.RenderMap();
 		mapRenderer.CenterSelf();
+		run = player.IsAlive();
 	}
 
 	exit(0);
