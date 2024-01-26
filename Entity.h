@@ -9,7 +9,7 @@ private:
 protected:
 	bool isPlayer;
 public:
-	Entity();
+	Entity(int x, int y);
 	Entity(Vector2<int> position);
 	Vector2<int> GetPosition() const;
 	virtual void SetPositionAbs(int newX, int newY);

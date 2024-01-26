@@ -143,6 +143,7 @@
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="Debugger.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="Kuriotska.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="Command.h" />
     <ClInclude Include="Debugger.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Event.h" />
     <ClInclude Include="InputHandler.h" />

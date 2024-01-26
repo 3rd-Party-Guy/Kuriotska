@@ -11,9 +11,12 @@
 #include "Debugger.h"
 #include "Misc.h"
 #include "PlayerInfoRenderer.h"
+#include "Enemy.h"
+#include "EnemyManager.h"
 
 #define MAP_WINDOW_WIDTH 40
 #define MAP_WINDOW_HEIGHT 20
+#define ENEMY_COUNT 25
 
 bool isInitialized = false;
 
@@ -67,6 +70,7 @@ int main(int argc, const char** argv) {
 	init_pair(5, COLOR_WHITE, COLOR_GREEN);
 	init_pair(6, COLOR_RED, COLOR_BLACK);
 	init_pair(7, COLOR_BLUE, COLOR_BLACK);
+	init_pair(8, COLOR_WHITE, COLOR_RED);
 
 	// --- INITIALIZATION START ---
 	attron(COLOR_PAIR(4));
@@ -82,6 +86,17 @@ int main(int argc, const char** argv) {
 		const MapNode* randNode = map.GetNode(randPos);
 		if (randNode->GetType() == MapNodeType::Sand) {
 			player.SetPositionAbs(randNode->GetPosition());
+			break;
+		}
+	}
+
+	// Spawn Enemies on Non-Water Nodes
+	for (int i = 0; i < ENEMY_COUNT; ++i) {
+		while (true) {
+			Vector2<int> randPos(Misc::RandomInRange(0, map.sizeX - 1), Misc::RandomInRange(0, map.sizeY - 1));
+			const MapNode* randNode = map.GetNode(randPos);
+			if (randNode->GetType() == MapNodeType::Water) continue;
+			EnemyManager::instance().AddEnemy(Enemy(randPos, 5, &player));
 			break;
 		}
 	}

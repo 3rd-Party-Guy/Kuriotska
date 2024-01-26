@@ -4,5 +4,6 @@ enum class MapNodeType {
 	Grass,
 	Sand,
 	Water,
-	Player
+	Player,
+	Enemy
 };

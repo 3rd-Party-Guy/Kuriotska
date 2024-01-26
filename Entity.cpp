@@ -1,7 +1,7 @@
 #include "Entity.h"
 
+Entity::Entity(int x, int y) : position(x, y), isPlayer(false) { }
 Entity::Entity(Vector2<int> position) : position(position), isPlayer(false) { }
-Entity::Entity() : position(0, 0), isPlayer(false) { }
 
 Vector2<int> Entity::GetPosition() const {
 	return position;

@@ -27,9 +27,13 @@ private:
 
 	static std::unordered_map<MapNodeType, char> mapNodeTypeGraphicLookup;
 	static std::unordered_map<MapNodeType, int> mapNodeTypeColorLookup;
-	bool IsOutsideBounds(int mapCoordX, int mapCoordY) const;
+	bool IsOutOfBounds(int mapCoordX, int mapCoordY) const;
+	bool IsOutOfBounds(Vector2<int> mapPos) const;
+
+	void RenderNode(Vector2<int> mapPos, int colorID, chtype graphic) const;
 
 	void RenderTerrain() const;
+	void RenderEnemies() const;
 	void RenderPlayer() const;
 public:
 	MapRenderer(Map* map, Player* player, unsigned short winSizeX, unsigned short winSizeY);

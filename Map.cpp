@@ -13,12 +13,7 @@ const MapNode* Map::GetNode(int x, int y) const {
 }
 
 const MapNode* Map::GetNode(Vector2<int> pos) const {
-	auto iter = map.find(std::make_pair(pos.GetX(), pos.GetY()));
-
-	if (iter != map.end())
-		return &(iter->second);
-
-	return nullptr;
+	return GetNode(pos.GetX(), pos.GetY());
 }
 
 void Map::GenerateMap() {

@@ -8,19 +8,22 @@
 
 #include "MapRenderer.h"
 #include "Vector2.h"
+#include "EnemyManager.h"
 
 std::unordered_map<MapNodeType, char> MapRenderer::mapNodeTypeGraphicLookup = {
 	{ MapNodeType::Grass, 'g' },
 	{ MapNodeType::Sand, 's' },
 	{ MapNodeType::Water, '~' },
-	{ MapNodeType::Player, '+' }
+	{ MapNodeType::Player, '+' },
+	{ MapNodeType::Enemy, '!' }
 };
 
 std::unordered_map<MapNodeType, int> MapRenderer::mapNodeTypeColorLookup = {
 	{ MapNodeType::Grass, 5 },
 	{ MapNodeType::Sand, 3 },
 	{ MapNodeType::Water, 2 },
-	{ MapNodeType::Player, 1 }
+	{ MapNodeType::Player, 1 },
+	{ MapNodeType::Enemy, 8 }
 };
 
 MapRenderer::MapRenderer(Map* map, Player* player, unsigned short winSizeX, unsigned short winSizeY) :
@@ -65,54 +68,66 @@ void MapRenderer::CenterSelf() {
 		position.SetY(position.GetY() - winSize.GetY() + centerBuffer * 2);
 }
 
-bool MapRenderer::IsOutsideBounds(int mapCoordX, int mapCoordY) const {
+bool MapRenderer::IsOutOfBounds(int mapCoordX, int mapCoordY) const {
 	return (mapCoordX < 0 || mapCoordX >= map->sizeX || mapCoordY < 0 || mapCoordY >= map->sizeY);
+}
+
+bool MapRenderer::IsOutOfBounds(Vector2<int> mapPos) const {
+	return IsOutOfBounds(mapPos.GetX(), mapPos.GetY());
+}
+
+void MapRenderer::RenderNode(Vector2<int> mapPos, int colorID, chtype graphic) const {
+	const int winCoordPosX = (mapPos.GetX() - position.GetX()) + halfWinSize.GetX();
+	const int winCoordPosY = (mapPos.GetY() - position.GetY()) + halfWinSize.GetY();
+
+	wattron(mapWindow, COLOR_PAIR(colorID));
+	mvwaddch(mapWindow, winCoordPosY, winCoordPosX, graphic);
+	wattroff(mapWindow, COLOR_PAIR(colorID));
 }
 
 void MapRenderer::RenderTerrain() const {
 	for (int y = -halfWinSize.GetY(); y < halfWinSize.GetY(); ++y) {
 		for (int x = -halfWinSize.GetX(); x < halfWinSize.GetX(); ++x) {
 			// Get Coordinate Values
-			int mapCoordY = position.GetY() + y;
-			int mapCoordX = position.GetX() + x;
+			Vector2<int> mapPos(position.GetX() + x, position.GetY() + y);
+			if (IsOutOfBounds(mapPos)) continue;
 
-			if (IsOutsideBounds(mapCoordX, mapCoordY)) continue;
+			const MapNodeType curNodeType = map->GetNode(mapPos)->GetType();
+			chtype graphic = mapNodeTypeGraphicLookup[curNodeType];
+			int colorID = mapNodeTypeColorLookup[curNodeType];
 
-			int mapWinCoordY = y + halfWinSize.GetY();
-			int mapWinCoordX = x + halfWinSize.GetX();
-
-			// Draw Map Node at Coordinate
-			const MapNodeType curNodeType = map->GetNode(mapCoordX, mapCoordY)->GetType();
-			auto iterGraphic = mapNodeTypeGraphicLookup.find(curNodeType);
-			if (iterGraphic != mapNodeTypeGraphicLookup.end()) {
-				auto iterColor = mapNodeTypeColorLookup.find(curNodeType);
-				int colorPairID = (iterColor != mapNodeTypeColorLookup.end()) ?
-					mapNodeTypeColorLookup[curNodeType] : 0;
-
-				wattron(mapWindow, COLOR_PAIR(colorPairID));
-				mvwaddch(mapWindow, mapWinCoordY, mapWinCoordX, mapNodeTypeGraphicLookup[curNodeType]);
-				wattroff(mapWindow, COLOR_PAIR(colorPairID));
-			}
+			RenderNode(mapPos, colorID, graphic);
 		}
+	}
+}
+
+void MapRenderer::RenderEnemies() const {
+	const std::unordered_set<Enemy, EnemyHashFunc>& enemies = EnemyManager::instance().GetEnemies();
+
+	for (const Enemy& e : enemies) {
+		if (IsOutOfBounds(e.GetPosition())) continue;
+
+		const Vector2<int> curEnemyPos = e.GetPosition();
+		int colorID = mapNodeTypeColorLookup[MapNodeType::Enemy];
+		chtype graphic = mapNodeTypeGraphicLookup[MapNodeType::Enemy];
+
+		RenderNode(curEnemyPos, colorID, graphic);
 	}
 }
 
 void MapRenderer::RenderPlayer() const {
 	const Vector2<int> curPlayerPos = player->GetPosition();
-	const int winCoordPosX = (curPlayerPos.GetX() - position.GetX()) + halfWinSize.GetX();
-	const int winCoordPosY = (curPlayerPos.GetY() - position.GetY()) + halfWinSize.GetY();
 	int colorID = mapNodeTypeColorLookup[MapNodeType::Player];
+	chtype graphic = mapNodeTypeGraphicLookup[MapNodeType::Player];
 
-	wattron(mapWindow, COLOR_PAIR(colorID));
-	mvwaddch(mapWindow, winCoordPosY, winCoordPosX, mapNodeTypeGraphicLookup[MapNodeType::Player]);
-	wattroff(mapWindow, COLOR_PAIR(colorID));
-
+	RenderNode(curPlayerPos, colorID, graphic);
 }
 
 void MapRenderer::RenderMap() const {
 	wclear(mapWindow);
 
 	RenderTerrain();
+	RenderEnemies();
 	RenderPlayer();
 
 	wrefresh(mapWindow);

@@ -28,11 +28,14 @@ struct Misc {
 		return dist(gen);
 	}
 
-	// This function counts a diagonal move as two straight moves
-	static int CalculateNodesDistance(const MapNode* a, const MapNode* b) {
-		Vector2<int> aPos = a->GetPosition();
-		Vector2<int> bPos = b->GetPosition();
+	static int CalculateDistanceEuclidean(const Vector2<int> a, const Vector2<int> b) {
+		double distance = sqrt(pow(b.GetX() - a.GetX(), 2) + pow(b.GetY() - a.GetY(), 2));
+		return (int)std::floor(distance);
+	}
 
-		return abs((aPos.GetX() + aPos.GetY()) - (bPos.GetX() + bPos.GetY()));
+	// This function counts a diagonal move as two straight moves
+	static int CalculateDistanceManhattan(const Vector2<int> a, const Vector2<int> b) {
+		double distance = abs(b.GetX() - a.GetX()) + abs(b.GetY() - a.GetY());
+		return (int)distance;
 	}
 };

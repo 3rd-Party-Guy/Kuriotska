@@ -49,11 +49,10 @@ int Player::GetAir() const {
 }
 
 Player::Player(const Map* map, int x, int y) : map(map), health(10, 0, 10, this, Event::HEALTH_EMPTY, Event::HEALTH_FULL), air(10, 0, 10, this, Event::AIR_EMPTY, Event::AIR_FULL),
-	isInWater(false), isAlive(true), airThread(&Player::ManageAir, this) {
+	isInWater(false), isAlive(true), airThread(&Player::ManageAir, this), Entity(x, y) {
 	air.AddObserver(this);
 	health.AddObserver(this);
 	isPlayer = true;
-	SetPositionAbs(x, y);
 }
 
 Player::~Player() {
