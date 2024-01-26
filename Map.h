@@ -13,6 +13,7 @@ public:
 	const int sizeX, sizeY;
 	const MapNode* GetNode(int x, int y) const;
 	const MapNode* GetNode(Vector2<int> pos) const;
+	const MapNode* GetRandomNode() const;
 	Map();
 	Map(int sizeX, int sizeY);
 };

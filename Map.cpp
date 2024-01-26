@@ -2,6 +2,7 @@
 #include <utility>
 
 #include "Map.h"
+#include "Misc.h"
 
 const MapNode* Map::GetNode(int x, int y) const {
 	auto iter = map.find(std::make_pair(x, y));
@@ -14,6 +15,12 @@ const MapNode* Map::GetNode(int x, int y) const {
 
 const MapNode* Map::GetNode(Vector2<int> pos) const {
 	return GetNode(pos.GetX(), pos.GetY());
+}
+
+const MapNode* Map::GetRandomNode() const {
+	Vector2<int> randPos(Misc::RandomInRange(0, sizeX - 1), Misc::RandomInRange(0, sizeY - 1));
+
+	return GetNode(randPos);
 }
 
 void Map::GenerateMap() {
