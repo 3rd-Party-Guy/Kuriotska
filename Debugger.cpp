@@ -3,7 +3,6 @@
 Debugger::Debugger() {
 	int winY = getmaxy(stdscr);
 	debugWin = newwin(2, 25, winY - 3, 0);
-	box(debugWin, 0, 0);
 	wrefresh(debugWin);
 }
 

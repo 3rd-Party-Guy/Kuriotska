@@ -25,10 +25,13 @@ std::unordered_map<MapNodeType, int> MapRenderer::mapNodeTypeColorLookup = {
 
 MapRenderer::MapRenderer(Map* map, Player* player, unsigned short winSizeX, unsigned short winSizeY) :
 	map(map), player(player), winSize(winSizeX, winSizeY), position(player->GetPosition()) {
-	minPlayerPosDifX = (int)std::floor(winSize.GetX() / 2) * -1 + centerBuffer;
-	maxPlayerPosDifX = (int)std::floor(winSize.GetX() / 2) - centerBuffer;
-	minPlayerPosDifY = (int)std::floor(winSize.GetY() / 2) * -1 + centerBuffer;
-	maxPlayerPosDifY = (int)std::floor(winSize.GetY() / 2) - centerBuffer;
+	
+	halfWinSize = Vector2<int>((int)std::floor(winSize.GetX() / 2), (int)std::floor(winSize.GetY() / 2));
+
+	minPlayerPosDifX = halfWinSize.GetX() * -1 + centerBuffer;
+	maxPlayerPosDifX = halfWinSize.GetX() - centerBuffer;
+	minPlayerPosDifY = halfWinSize.GetY() * -1 + centerBuffer;
+	maxPlayerPosDifY = halfWinSize.GetY() - centerBuffer;
 
 	int maxX, maxY;
 	getmaxyx(stdscr, maxY, maxX);
@@ -62,35 +65,21 @@ void MapRenderer::CenterSelf() {
 		position.SetY(position.GetY() - winSize.GetY() + centerBuffer * 2);
 }
 
-void MapRenderer::RenderMap() const {
-	wclear(mapWindow);
+bool MapRenderer::IsOutsideBounds(int mapCoordX, int mapCoordY) const {
+	return (mapCoordX < 0 || mapCoordX >= map->sizeX || mapCoordY < 0 || mapCoordY >= map->sizeY);
+}
 
-	const Vector2<int> curPlayerPos = player->GetPosition();
-	const int halfWinY = (int)std::floor(winSize.GetY() / 2);
-	const int halfWinX = (int)std::floor(winSize.GetX() / 2);
-
-	for (int y = -halfWinY; y < halfWinY; ++y) {
-		for (int x = -halfWinX; x < halfWinX; ++x) {
+void MapRenderer::RenderTerrain() const {
+	for (int y = -halfWinSize.GetY(); y < halfWinSize.GetY(); ++y) {
+		for (int x = -halfWinSize.GetX(); x < halfWinSize.GetX(); ++x) {
 			// Get Coordinate Values
 			int mapCoordY = position.GetY() + y;
 			int mapCoordX = position.GetX() + x;
 
-			int mapWinCoordY = y + halfWinY;
-			int mapWinCoordX = x + halfWinX;
+			if (IsOutsideBounds(mapCoordX, mapCoordY)) continue;
 
-			// Handle Outside Bounds
-			if (mapCoordX < 0 || mapCoordX >= map->sizeX || mapCoordY < 0 || mapCoordY >= map->sizeY) {
-				continue;
-			}
-
-			// Handle is Player at Coordinate
-			if (mapCoordX == curPlayerPos.GetX() && mapCoordY == curPlayerPos.GetY()) {
-				int colorID = mapNodeTypeColorLookup[MapNodeType::Player];
-				wattron(mapWindow, COLOR_PAIR(colorID));
-				mvwaddch(mapWindow, mapWinCoordY, mapWinCoordX, mapNodeTypeGraphicLookup.at(MapNodeType::Player));
-				wattroff(mapWindow, COLOR_PAIR(colorID));
-				continue;
-			}
+			int mapWinCoordY = y + halfWinSize.GetY();
+			int mapWinCoordX = x + halfWinSize.GetX();
 
 			// Draw Map Node at Coordinate
 			const MapNodeType curNodeType = map->GetNode(mapCoordX, mapCoordY)->GetType();
@@ -106,6 +95,25 @@ void MapRenderer::RenderMap() const {
 			}
 		}
 	}
+}
+
+void MapRenderer::RenderPlayer() const {
+	const Vector2<int> curPlayerPos = player->GetPosition();
+	const int winCoordPosX = (curPlayerPos.GetX() - position.GetX()) + halfWinSize.GetX();
+	const int winCoordPosY = (curPlayerPos.GetY() - position.GetY()) + halfWinSize.GetY();
+	int colorID = mapNodeTypeColorLookup[MapNodeType::Player];
+
+	wattron(mapWindow, COLOR_PAIR(colorID));
+	mvwaddch(mapWindow, winCoordPosY, winCoordPosX, mapNodeTypeGraphicLookup[MapNodeType::Player]);
+	wattroff(mapWindow, COLOR_PAIR(colorID));
+
+}
+
+void MapRenderer::RenderMap() const {
+	wclear(mapWindow);
+
+	RenderTerrain();
+	RenderPlayer();
 
 	wrefresh(mapWindow);
 }

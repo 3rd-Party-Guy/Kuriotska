@@ -73,8 +73,7 @@ int main(int argc, const char** argv) {
 	std::thread loadingThread(ChangeInitColorRec, true, 0);
 
 	PerlinNoise::SetPrimeIndex(Misc::RandomInRange(0, 9));
-	//Map map(1000, 1000);
-	Map map(200, 200);
+	Map map(250, 250);
 
 	// Spawn Player on Random Sand Node
 	Player player(&map, 0, 0);
@@ -97,7 +96,6 @@ int main(int argc, const char** argv) {
 	// --- INITIALIZATION END ---
 
 	bool run = true;
-
 	while (run) {
 		inputHandler.HandleInput();
 		mapRenderer.RenderMap();
