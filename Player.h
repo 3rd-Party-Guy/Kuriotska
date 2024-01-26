@@ -19,7 +19,7 @@ private:
 
 	std::thread airThread;
 	bool isInWater;
-	float waterAirTime = 0.25f;								// In Seconds
+	unsigned short waterAirTime = 500;															// In Milliseconds
 	void ManageAir();
 public:
 	bool IsAlive() const;

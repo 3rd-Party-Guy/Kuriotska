@@ -21,11 +21,11 @@ bool Player::IsAlive() const {
 }
 
 void Player::ManageAir() {
-	using namespace std::chrono_literals;
+	std::chrono::milliseconds sleepDuration(waterAirTime);
 
 	while (isAlive) {
 		(isInWater) ? air.Decrease(1) : air.Increase(1);
-		std::this_thread::sleep_for(2s);
+		std::this_thread::sleep_for(sleepDuration);
 	}
 }
 
