@@ -24,8 +24,8 @@ public:
 	const std::unordered_map<int, Enemy>& GetEnemies() const;
 	const bool AddEnemy(Enemy enemy);							// returns true and inserts if key not found, otherwise returns false
 	const bool RemoveEnemy(Enemy enemy);						// returns true if enemy found and removed, otherwise false
-	void Start();
-	void Stop();
+	void StartUpdate();
+	void StopUpdate();
 	void UpdateEnemies();
 	~EnemyManager();
 };

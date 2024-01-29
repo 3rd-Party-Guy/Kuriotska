@@ -14,8 +14,12 @@
 #include "Enemy.h"
 #include "EnemyManager.h"
 
+#define MAP_WIDTH 500
+#define MAP_HEIGHT 500
+
 #define MAP_WINDOW_WIDTH 40
 #define MAP_WINDOW_HEIGHT 20
+
 #define ENEMY_COUNT 25
 
 bool isInitialized = false;
@@ -77,7 +81,7 @@ int main(int argc, const char** argv) {
 	std::thread loadingThread(ChangeInitColorRec, true, 0);
 
 	PerlinNoise::SetPrimeIndex(Misc::RandomInRange(0, 9));
-	Map map(250, 250);
+	Map map(MAP_WIDTH, MAP_HEIGHT);
 
 	// Spawn Player on Random Sand Node
 	Player player(&map, 0, 0);
@@ -111,7 +115,7 @@ int main(int argc, const char** argv) {
 	attroff(COLOR_PAIR(4));
 	// --- INITIALIZATION END ---
 
-	EnemyManager::instance().Start();
+	EnemyManager::instance().StartUpdate();
 
 	bool run = true;
 	while (run) {
@@ -122,7 +126,7 @@ int main(int argc, const char** argv) {
 		run = player.IsAlive();
 	}
 
-	EnemyManager::instance().Stop();
+	EnemyManager::instance().StopUpdate();
 
 	exit(0);
 }
