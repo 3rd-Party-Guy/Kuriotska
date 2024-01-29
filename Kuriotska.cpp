@@ -16,7 +16,7 @@
 
 #define MAP_WINDOW_WIDTH 40
 #define MAP_WINDOW_HEIGHT 20
-#define ENEMY_COUNT 1
+#define ENEMY_COUNT 25
 
 bool isInitialized = false;
 
@@ -93,14 +93,11 @@ int main(int argc, const char** argv) {
 	// Spawn Enemies on Non-Water Nodes
 	for (int i = 0; i < ENEMY_COUNT; ++i) {
 		while (true) {
-			/*Vector2<int> randPos(Misc::RandomInRange(0, map.sizeX - 1), Misc::RandomInRange(0, map.sizeY - 1));
+			Vector2<int> randPos(Misc::RandomInRange(0, map.sizeX - 1), Misc::RandomInRange(0, map.sizeY - 1));
 			const MapNode* randNode = map.GetNode(randPos);
 			if (randNode->GetType() == MapNodeType::Water) continue;
-			EnemyManager::instance().AddEnemy(Enemy(randPos, 5, &player));
-			*/
-			Vector2<int> newPos = player.GetPosition() + Vector2<int>(7, 0);
-			Enemy newEnemy(newPos, 5, &player);
-			EnemyManager::instance().InsertEnemy(newEnemy);
+			
+			EnemyManager::instance().InsertEnemy(Enemy(randPos, 10, &player));
 			break;
 		}
 	}

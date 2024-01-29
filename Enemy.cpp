@@ -1,6 +1,5 @@
 #include "Enemy.h"
 #include "Misc.h"
-#include "Debugger.h"
 
 size_t Enemy::nextID = 1;
 
@@ -20,41 +19,8 @@ const bool Enemy::operator==(const Enemy& other) const {
 }
 
 void Enemy::Update() {
-	std::string debugInfo = "State Before: ";
-
-	switch (curState) {
-	case EnemyState::IDLE:
-		debugInfo += "Idle";
-		break;
-	case EnemyState::CHASE:
-		debugInfo += "Chase";
-		break;
-	case EnemyState::ATTACK:
-		debugInfo += "Attack";
-		break;
-	case EnemyState::FLEE:
-		debugInfo += "Flee";
-	}
-
 	CheckState();
 	Act();
-
-	debugInfo += "\nState After: ";
-
-	switch (curState) {
-	case EnemyState::IDLE:
-		debugInfo += "Idle";
-		break;
-	case EnemyState::CHASE:
-		debugInfo += "Chase";
-		break;
-	case EnemyState::ATTACK:
-		debugInfo += "Attack";
-		break;
-	case EnemyState::FLEE:
-		debugInfo += "Flee";
-	}
-	Debugger::instance().ShowInfo(debugInfo);
 }
 
 void Enemy::CheckState() {

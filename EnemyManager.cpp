@@ -1,7 +1,6 @@
 #include <chrono>
 
 #include "EnemyManager.h"
-#include "Debugger.h"
 
 EnemyManager::EnemyManager() : shouldUpdate(true) { }
 
