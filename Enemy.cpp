@@ -34,10 +34,15 @@ void Enemy::CheckState() {
 			curState = EnemyState::ATTACK;
 		else if (distance > chaseDistance)
 			curState = EnemyState::IDLE;
+
+		if (health.GetAmount() < 2)
+			curState = EnemyState::FLEE;
 		break;
 	case EnemyState::ATTACK:
 		if (distance > 1)
 			curState = EnemyState::CHASE;
+		if (health.GetAmount() < 2)
+			curState = EnemyState::FLEE;
 		break;
 	case EnemyState::FLEE:
 		if (distance > chaseDistance)
