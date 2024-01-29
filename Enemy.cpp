@@ -3,10 +3,9 @@
 
 size_t Enemy::nextID = 1;
 
-Enemy::Enemy(Vector2<int> position, int chaseDistance, Player* player) : Entity(position), chaseDistance(chaseDistance), player(player), curState(EnemyState::IDLE) {
-	ID = nextID++;
-}
-Enemy::Enemy() : Entity(0, 0), chaseDistance(0), player(nullptr), curState(EnemyState::IDLE) {
+Enemy::Enemy(Vector2<int> position, int chaseDistance, Player* player) : Entity(position), chaseDistance(chaseDistance),
+	player(player), curState(EnemyState::IDLE),
+	health(10, 0, 10, this, Event::HEALTH_EMPTY, Event::HEALTH_FULL) {
 	ID = nextID++;
 }
 

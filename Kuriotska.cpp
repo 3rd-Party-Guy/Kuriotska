@@ -97,7 +97,7 @@ int main(int argc, const char** argv) {
 			const MapNode* randNode = map.GetNode(randPos);
 			if (randNode->GetType() == MapNodeType::Water) continue;
 			
-			EnemyManager::instance().InsertEnemy(Enemy(randPos, 10, &player));
+			EnemyManager::instance().AddEnemy(Enemy(randPos, 10, &player));
 			break;
 		}
 	}

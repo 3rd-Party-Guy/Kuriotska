@@ -22,7 +22,7 @@ private:
 public:
 	static EnemyManager& instance();
 	const std::unordered_map<int, Enemy>& GetEnemies() const;
-	const void InsertEnemy(Enemy enemy);
+	const void AddEnemy(Enemy enemy);
 	const bool RemoveEnemy(Enemy enemy);						// returns true if enemy found and removed, otherwise false
 	void Start();
 	void Stop();
