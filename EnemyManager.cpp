@@ -30,12 +30,12 @@ const bool EnemyManager::RemoveEnemy(Enemy enemy) {
 	return true;
 }
 
-void EnemyManager::Start() {
+void EnemyManager::StartUpdate() {
 	shouldUpdate = true;
 	updateThread = std::thread(&EnemyManager::UpdateEnemies, this);
 }
 
-void EnemyManager::Stop() {
+void EnemyManager::StopUpdate() {
 	shouldUpdate = false;
 }
 
