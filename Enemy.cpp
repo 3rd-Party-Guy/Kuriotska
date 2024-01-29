@@ -27,7 +27,8 @@ void Enemy::CheckState() {
 	switch (curState) {
 	case EnemyState::IDLE:
 		if (distance <= chaseDistance)
-			curState = EnemyState::CHASE;
+			curState = (health.GetAmount() < 1) ? EnemyState::FLEE : 
+						EnemyState::CHASE;
 		break;
 	case EnemyState::CHASE:
 		if (distance <= 1)
