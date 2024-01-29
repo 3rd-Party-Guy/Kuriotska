@@ -26,6 +26,8 @@ public:
 	void SetPositionRel(int xVel, int yVel) override;
 	int GetHealth() const;
 	int GetAir() const;
+	void Damage(int damage);
+
 	Player(const Map* map, int x, int y);
 	~Player();
 };

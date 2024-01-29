@@ -102,12 +102,12 @@ void MapRenderer::RenderTerrain() const {
 }
 
 void MapRenderer::RenderEnemies() const {
-	const std::unordered_set<Enemy, EnemyHashFunc>& enemies = EnemyManager::instance().GetEnemies();
+	const std::unordered_map<int, Enemy>& enemies = EnemyManager::instance().GetEnemies();
 
-	for (const Enemy& e : enemies) {
-		if (IsOutOfBounds(e.GetPosition())) continue;
+	for (const std::pair<const int, Enemy>& e : enemies) {
+		if (IsOutOfBounds(e.second.GetPosition())) continue;
 
-		const Vector2<int> curEnemyPos = e.GetPosition();
+		const Vector2<int> curEnemyPos = e.second.GetPosition();
 		int colorID = mapNodeTypeColorLookup[MapNodeType::Enemy];
 		chtype graphic = mapNodeTypeGraphicLookup[MapNodeType::Enemy];
 

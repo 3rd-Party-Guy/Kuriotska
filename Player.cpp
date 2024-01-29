@@ -48,6 +48,10 @@ int Player::GetAir() const {
 	return air.GetAmount();
 }
 
+void Player::Damage(int damage) {
+	health.Decrease(damage);
+}
+
 Player::Player(const Map* map, int x, int y) : map(map), health(10, 0, 10, this, Event::HEALTH_EMPTY, Event::HEALTH_FULL), air(10, 0, 10, this, Event::AIR_EMPTY, Event::AIR_FULL),
 	isInWater(false), isAlive(true), airThread(&Player::ManageAir, this), Entity(x, y) {
 	air.AddObserver(this);

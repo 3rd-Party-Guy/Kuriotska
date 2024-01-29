@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Quelldateien\Enemy">
+      <UniqueIdentifier>{e4997c4f-952d-4917-8bf2-d9447f5a1924}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Enemy">
+      <UniqueIdentifier>{8dd5627e-9b44-4132-9da7-fbb33eee8b92}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Kuriotska.cpp">
@@ -58,10 +64,10 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\Enemy</Filter>
     </ClCompile>
     <ClCompile Include="EnemyManager.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,10 +126,13 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="EnemyManager.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyState.h">
+      <Filter>Headerdateien\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,15 +1,14 @@
 #include "Enemy.h"
 #include "Misc.h"
+#include "Debugger.h"
 
 size_t Enemy::nextID = 1;
 
-Enemy::Enemy(Vector2<int> position, int attackDistance, Entity* player) : Entity(position), attackDistance(attackDistance), player(player) {
-	isChasing = false;
+Enemy::Enemy(Vector2<int> position, int chaseDistance, Player* player) : Entity(position), chaseDistance(chaseDistance), player(player), curState(EnemyState::IDLE) {
 	ID = nextID++;
 }
-
-bool Enemy::IsPlayerWithinDistance() const {
-	return (Misc::CalculateDistanceEuclidean(GetPosition(), player->GetPosition()) <= attackDistance);
+Enemy::Enemy() : Entity(0, 0), chaseDistance(0), player(nullptr), curState(EnemyState::IDLE) {
+	ID = nextID++;
 }
 
 const size_t Enemy::GetID() const {
@@ -18,4 +17,86 @@ const size_t Enemy::GetID() const {
 
 const bool Enemy::operator==(const Enemy& other) const {
 	return (ID == other.GetID());
+}
+
+void Enemy::Update() {
+	std::string debugInfo = "State Before: ";
+
+	switch (curState) {
+	case EnemyState::IDLE:
+		debugInfo += "Idle";
+		break;
+	case EnemyState::CHASE:
+		debugInfo += "Chase";
+		break;
+	case EnemyState::ATTACK:
+		debugInfo += "Attack";
+		break;
+	case EnemyState::FLEE:
+		debugInfo += "Flee";
+	}
+
+	CheckState();
+	Act();
+
+	debugInfo += "\nState After: ";
+
+	switch (curState) {
+	case EnemyState::IDLE:
+		debugInfo += "Idle";
+		break;
+	case EnemyState::CHASE:
+		debugInfo += "Chase";
+		break;
+	case EnemyState::ATTACK:
+		debugInfo += "Attack";
+		break;
+	case EnemyState::FLEE:
+		debugInfo += "Flee";
+	}
+	Debugger::instance().ShowInfo(debugInfo);
+}
+
+void Enemy::CheckState() {
+	int distance = Misc::CalculateDistanceEuclidean(player->GetPosition(), GetPosition());
+	switch (curState) {
+	case EnemyState::IDLE:
+		if (distance <= chaseDistance)
+			curState = EnemyState::CHASE;
+		break;
+	case EnemyState::CHASE:
+		if (distance <= 1)
+			curState = EnemyState::ATTACK;
+		else if (distance > chaseDistance)
+			curState = EnemyState::IDLE;
+		break;
+	case EnemyState::ATTACK:
+		if (distance > 1)
+			curState = EnemyState::CHASE;
+		break;
+	case EnemyState::FLEE:
+		if (distance > chaseDistance)
+			curState = EnemyState::IDLE;
+		break;
+	default:
+		break;
+	}
+}
+
+void Enemy::Act() {
+	switch (curState) {
+	case EnemyState::IDLE:
+		break;
+	case EnemyState::CHASE:
+		SetPositionRel(Misc::GetUnitVecTowardsTarget(GetPosition(), player->GetPosition()));
+		break;
+	case EnemyState::ATTACK:
+		player->Damage(1);
+		break;
+	case EnemyState::FLEE:
+		SetPositionRel(Misc::GetUnitVecTowardsTarget(player->GetPosition(), GetPosition()));
+		break;
+	default:
+		break;
+	}
 }

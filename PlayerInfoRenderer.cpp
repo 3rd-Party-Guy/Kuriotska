@@ -48,9 +48,7 @@ void PlayerInfoRenderer::RenderAir() const {
 
 void PlayerInfoRenderer::RenderInfo() const {
 	wclear(infoWindow);
-	mvwaddstr(infoWindow, 0, 0, "THIS WORKS");
 	RenderHealth();
 	RenderAir();
 	wrefresh(infoWindow);
-
 }

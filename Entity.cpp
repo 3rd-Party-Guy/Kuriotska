@@ -20,5 +20,5 @@ void Entity::SetPositionRel(int xVel, int yVel) {
 }
 
 void Entity::SetPositionRel(Vector2<int> velocity) {
-	position.Set(position.GetX() + velocity.GetX(), position.GetY() + velocity.GetY());
+	position.Set(position + velocity);
 }
