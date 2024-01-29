@@ -17,8 +17,8 @@ const std::unordered_map<int, Enemy>& EnemyManager::GetEnemies() const {
 	return enemies;
 }
 
-const void EnemyManager::AddEnemy(Enemy enemy) {
-	enemies.try_emplace(enemy.GetID(), enemy);
+const bool EnemyManager::AddEnemy(Enemy enemy) {
+	return enemies.try_emplace(enemy.GetID(), enemy).second;
 }
 
 const bool EnemyManager::RemoveEnemy(Enemy enemy) {
