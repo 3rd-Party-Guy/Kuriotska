@@ -121,6 +121,12 @@ void MapRenderer::RenderPlayer() const {
 	chtype graphic = mapNodeTypeGraphicLookup[MapNodeType::Player];
 
 	RenderNode(curPlayerPos, colorID, graphic);
+
+	const std::vector<std::unique_ptr<Attack>>& playerAttacks = player->GetAttacks();
+
+	for (const std::unique_ptr<Attack>& a : playerAttacks) {
+		RenderNode(a->GetPosition(), 5, '?');
+	}
 }
 
 void MapRenderer::RenderMap() const {

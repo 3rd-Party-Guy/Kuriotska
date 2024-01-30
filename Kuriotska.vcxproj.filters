@@ -72,6 +72,9 @@
     <ClCompile Include="Actor.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="Attack.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Map.h">
@@ -138,6 +141,9 @@
       <Filter>Headerdateien\Enemy</Filter>
     </ClInclude>
     <ClInclude Include="Actor.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Attack.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

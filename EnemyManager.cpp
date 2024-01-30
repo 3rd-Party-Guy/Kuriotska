@@ -17,6 +17,13 @@ const std::unordered_map<int, Enemy>& EnemyManager::GetEnemies() const {
 	return enemies;
 }
 
+const void EnemyManager::DamageEnemyAtPos(Vector2<int> pos, int amount) {
+	for (std::pair<const int, Enemy>& e : enemies) {
+		if (e.second.GetPosition() != pos) continue;
+		e.second.Damage(amount);
+	}
+}
+
 const bool EnemyManager::AddEnemy(Enemy enemy) {
 	return enemies.try_emplace(enemy.GetID(), enemy).second;
 }
