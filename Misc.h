@@ -8,18 +8,15 @@
 #include "Vector2.h"
 
 struct Misc {
-	static int MapFloatToInt(float value, float x1, float y1, int x2, int y2) {
+	static int MapToInt(double value, double x1, double y1, int x2, int y2) {
 		value = std::max(x1, std::min(y1, value));
-		float normalizedValue = (value - x1) / (y1 - x1);
+		double denominator = (y1 - x1) != 0 ? (y1 - x1) : 1.0;
+		double normalizedValue = (value - x1) / denominator;
 
-		return static_cast<int>(x2 + normalizedValue * (y2 - x2 + 1));
-	}
+		if (normalizedValue < 0.0) return x2;
+		if (normalizedValue > 1.0) return y2;
 
-	static int MapDoubleToInt(double value, double x1, double y1, int x2, int y2) {
-		value = std::max(x1, std::min(y1, value));
-		double normalizedValue = (value - x1) / (y1 - x1);
-
-		return static_cast<int>(x2 + normalizedValue * (y2 - x2 + 1));
+		return x2 + static_cast<int>(normalizedValue * (y2 - x2 + 1));
 	}
 
 	static int RandomInRange(const int minInclusive, const int maxInclusive) {
