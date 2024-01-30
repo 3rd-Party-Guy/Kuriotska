@@ -26,8 +26,7 @@ const MapNode* Map::GetRandomNode() const {
 const void Map::SetNodeIsFree(int x, int y, bool isFree) {
 	auto iter = map.find(std::make_pair(x, y));
 
-	if (iter != map.end())
-		return;
+	if (iter == map.end()) return;
 
 	iter->second.isFree = isFree;
 }

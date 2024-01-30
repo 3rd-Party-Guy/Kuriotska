@@ -20,7 +20,7 @@
 #define MAP_WINDOW_WIDTH 40
 #define MAP_WINDOW_HEIGHT 20
 
-#define ENEMY_COUNT 125
+#define ENEMY_COUNT 500
 
 bool isInitialized = false;
 

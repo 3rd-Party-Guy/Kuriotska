@@ -1,9 +1,9 @@
 #pragma once
 
 enum class MapNodeType {
-	Grass,
-	Sand,
 	Water,
-	Player,
-	Enemy
+	Sand,
+	Grass,
+	Enemy,
+	Player
 };
