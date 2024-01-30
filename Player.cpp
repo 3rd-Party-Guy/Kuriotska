@@ -69,6 +69,11 @@ Player::Player(Map* map, int x, int y) : Actor(x, y, 10, true, map), air(10, 0, 
 	AddAttack();
 	AddAttack();
 	AddAttack();
+	AddAttack();
+	AddAttack();
+	AddAttack();
+	AddAttack();
+	AddAttack();
 }
 
 Player::~Player() {

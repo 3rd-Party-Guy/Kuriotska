@@ -14,14 +14,16 @@ std::unordered_map<MapNodeType, char> MapRenderer::mapNodeTypeGraphicLookup = {
 	{ MapNodeType::Grass, 'g' },
 	{ MapNodeType::Sand, 's' },
 	{ MapNodeType::Water, '~' },
-	{ MapNodeType::Player, '+' },
-	{ MapNodeType::Enemy, '!' }
+	{ MapNodeType::Enemy, '!' },
+	{ MapNodeType::Attack, '/' },
+	{ MapNodeType::Player, '+' }
 };
 
 std::unordered_map<MapNodeType, int> MapRenderer::mapNodeTypeColorLookup = {
 	{ MapNodeType::Grass, 5 },
 	{ MapNodeType::Sand, 3 },
 	{ MapNodeType::Water, 2 },
+	{ MapNodeType::Attack, 9 },
 	{ MapNodeType::Player, 1 },
 	{ MapNodeType::Enemy, 8 }
 };
@@ -115,18 +117,22 @@ void MapRenderer::RenderEnemies() const {
 	}
 }
 
+void MapRenderer::RenderPlayerAttacks() const {
+	const std::vector<std::unique_ptr<Attack>>& playerAttacks = player->GetAttacks();
+	chtype graphic = mapNodeTypeGraphicLookup[MapNodeType::Attack];
+	int colorID = mapNodeTypeColorLookup[MapNodeType::Attack];
+
+	for (const std::unique_ptr<Attack>& a : playerAttacks)
+		RenderNode(a->GetPosition(), colorID, graphic);
+}
+
 void MapRenderer::RenderPlayer() const {
-	const Vector2<int> curPlayerPos = player->GetPosition();
 	int colorID = mapNodeTypeColorLookup[MapNodeType::Player];
 	chtype graphic = mapNodeTypeGraphicLookup[MapNodeType::Player];
-
+	const Vector2<int> curPlayerPos = player->GetPosition();
+	
 	RenderNode(curPlayerPos, colorID, graphic);
 
-	const std::vector<std::unique_ptr<Attack>>& playerAttacks = player->GetAttacks();
-
-	for (const std::unique_ptr<Attack>& a : playerAttacks) {
-		RenderNode(a->GetPosition(), 5, '?');
-	}
 }
 
 void MapRenderer::RenderMap() const {
@@ -134,6 +140,7 @@ void MapRenderer::RenderMap() const {
 
 	RenderTerrain();
 	RenderEnemies();
+	RenderPlayerAttacks();
 	RenderPlayer();
 
 	wrefresh(mapWindow);

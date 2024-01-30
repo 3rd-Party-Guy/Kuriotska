@@ -20,7 +20,7 @@
 #define MAP_WINDOW_WIDTH 40
 #define MAP_WINDOW_HEIGHT 20
 
-#define ENEMY_COUNT 50
+#define ENEMY_COUNT 250
 
 bool isInitialized = false;
 
@@ -75,6 +75,7 @@ int main(int argc, const char** argv) {
 	init_pair(6, COLOR_RED, COLOR_BLACK);
 	init_pair(7, COLOR_BLUE, COLOR_BLACK);
 	init_pair(8, COLOR_WHITE, COLOR_RED);
+	init_pair(9, COLOR_YELLOW, COLOR_BLACK);
 
 	// --- INITIALIZATION START ---
 	attron(COLOR_PAIR(4));

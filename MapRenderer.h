@@ -34,6 +34,7 @@ private:
 
 	void RenderTerrain() const;
 	void RenderEnemies() const;
+	void RenderPlayerAttacks() const;
 	void RenderPlayer() const;
 public:
 	MapRenderer(Map* map, Player* player, unsigned short winSizeX, unsigned short winSizeY);
