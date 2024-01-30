@@ -5,7 +5,7 @@
 #include "Observer.h"
 #include "Source.h"
 
-class Actor : public Entity, Observer
+class Actor : public Entity, public Observer
 {
 private:
 	bool isAlive;

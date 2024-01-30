@@ -10,13 +10,18 @@
 struct Misc {
 	static int MapToInt(double value, double x1, double y1, int x2, int y2) {
 		value = std::max(x1, std::min(y1, value));
-		double denominator = (y1 - x1) != 0 ? (y1 - x1) : 1.0;
+		double denominator = (y1 - x1) != 0.0 ? (y1 - x1) : 1.0;
 		double normalizedValue = (value - x1) / denominator;
 
 		if (normalizedValue < 0.0) return x2;
 		if (normalizedValue > 1.0) return y2;
 
-		return x2 + static_cast<int>(normalizedValue * (y2 - x2 + 1));
+		int res;
+		if (normalizedValue <= 1.0 / (y2 - x2 + 1))
+			res = x2;
+		else
+			res = x2 + static_cast<int>(normalizedValue * (y2 - x2 + 1));
+		return res;
 	}
 
 	static int RandomInRange(const int minInclusive, const int maxInclusive) {

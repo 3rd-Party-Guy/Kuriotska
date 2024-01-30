@@ -18,7 +18,8 @@ private:
 	
 	void ManageAir();
 
-	virtual void SetPositionRel(int xVel, int yVel) override;
+	virtual void OnNotify(const Entity* entity, Event event) override;
+	void SetPositionRel(int xVel, int yVel) override;
 
 public:
 	int GetAir() const;

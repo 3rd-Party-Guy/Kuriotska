@@ -33,8 +33,20 @@ void Player::Damage(int damage) {
 	Actor::Damage(damage);
 }
 
+void Player::OnNotify(const Entity* entity, Event event) {
+	switch (event) {
+	case Event::HEALTH_EMPTY:
+	case Event::AIR_EMPTY:
+		OnDeath();
+		break;
+	default:
+		break;
+	}
+}
+
 Player::Player(Map* map, int x, int y) : Actor(x, y, 10, true, map), air(10, 0, 10, this, Event::AIR_EMPTY, Event::AIR_FULL),
 	isInWater(false), airThread(&Player::ManageAir, this) {
+	air.AddObserver(this);
 }
 
 Player::~Player() {
