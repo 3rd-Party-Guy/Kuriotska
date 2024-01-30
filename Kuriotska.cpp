@@ -20,7 +20,7 @@
 #define MAP_WINDOW_WIDTH 40
 #define MAP_WINDOW_HEIGHT 20
 
-#define ENEMY_COUNT 25
+#define ENEMY_COUNT 125
 
 bool isInitialized = false;
 
@@ -101,7 +101,7 @@ int main(int argc, const char** argv) {
 			const MapNode* randNode = map.GetNode(randPos);
 			if (randNode->GetType() == MapNodeType::Water) continue;
 			
-			EnemyManager::instance().AddEnemy(Enemy(randPos, 10, &player));
+			EnemyManager::instance().AddEnemy(Enemy(randPos, 10, &player, &map));
 			break;
 		}
 	}

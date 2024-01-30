@@ -9,6 +9,8 @@ private:
 	bool isDiscovered;
 	MapNodeType type;
 public:
+	bool isFree;
+
 	bool IsDiscovered() const;
 	MapNodeType GetType() const;
 	MapNode(Vector2<int> position);

@@ -2,32 +2,28 @@
 
 #include <thread>
 
-#include "Entity.h"
+#include "Actor.h"
 #include "Observer.h"
 #include "Event.h"
 #include "Map.h"
 #include "Source.h"
 
-class Player : public Entity, Observer
+class Player : public Actor
 {
 private:
-	bool isAlive;
-	Source health;
-	Source air;
-	const Map* map;
-	virtual void OnNotify(const Entity* entity, Event event);
-
-	std::thread airThread;
 	bool isInWater;
+	Source air;
 	unsigned short waterAirTime = 500;															// In Milliseconds
+	std::thread airThread;
+	
 	void ManageAir();
-public:
-	bool IsAlive() const;
-	void SetPositionRel(int xVel, int yVel) override;
-	int GetHealth() const;
-	int GetAir() const;
-	void Damage(int damage);
 
-	Player(const Map* map, int x, int y);
+	virtual void SetPositionRel(int xVel, int yVel) override;
+
+public:
+	int GetAir() const;
+	void Damage(int damage) override;
+
+	Player(Map* map, int x, int y);
 	~Player();
 };

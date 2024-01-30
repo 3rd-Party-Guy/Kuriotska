@@ -21,8 +21,8 @@ const bool EnemyManager::AddEnemy(Enemy enemy) {
 	return enemies.try_emplace(enemy.GetID(), enemy).second;
 }
 
-const bool EnemyManager::RemoveEnemy(Enemy enemy) {
-	auto iter = enemies.find(enemy.GetID());
+const bool EnemyManager::RemoveEnemy(Enemy* enemy) {
+	auto iter = enemies.find(enemy->GetID());
 	if (iter == enemies.end())
 		return false;
 

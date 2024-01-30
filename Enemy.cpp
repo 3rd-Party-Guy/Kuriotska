@@ -1,11 +1,11 @@
 #include "Enemy.h"
+#include "EnemyManager.h"
 #include "Misc.h"
 
 size_t Enemy::nextID = 1;
 
-Enemy::Enemy(Vector2<int> position, int chaseDistance, Player* player) : Entity(position), chaseDistance(chaseDistance),
-	player(player), curState(EnemyState::IDLE),
-	health(10, 0, 10, this, Event::HEALTH_EMPTY, Event::HEALTH_FULL) {
+Enemy::Enemy(Vector2<int> position, int chaseDistance, Player* player, Map* map) : Actor(position, 5, false, map),
+	chaseDistance(chaseDistance), curState(EnemyState::IDLE), player(player) {
 	ID = nextID++;
 }
 
@@ -27,7 +27,7 @@ void Enemy::CheckState() {
 	switch (curState) {
 	case EnemyState::IDLE:
 		if (distance <= chaseDistance)
-			curState = (health.GetAmount() < 1) ? EnemyState::FLEE : 
+			curState = (GetHealth() < 1) ? EnemyState::FLEE : 
 						EnemyState::CHASE;
 		break;
 	case EnemyState::CHASE:
@@ -36,13 +36,13 @@ void Enemy::CheckState() {
 		else if (distance > chaseDistance)
 			curState = EnemyState::IDLE;
 
-		if (health.GetAmount() < 2)
+		if (GetHealth() < 2)
 			curState = EnemyState::FLEE;
 		break;
 	case EnemyState::ATTACK:
 		if (distance > 1)
 			curState = EnemyState::CHASE;
-		if (health.GetAmount() < 2)
+		if (GetHealth() < 2)
 			curState = EnemyState::FLEE;
 		break;
 	case EnemyState::FLEE:
@@ -59,7 +59,7 @@ void Enemy::Act() {
 	case EnemyState::IDLE:
 		break;
 	case EnemyState::CHASE:
-		SetPositionRel(Misc::GetUnitVecTowardsTarget(GetPosition(), player->GetPosition()));
+		TryChasePlayer();
 		break;
 	case EnemyState::ATTACK:
 		player->Damage(1);
@@ -70,4 +70,14 @@ void Enemy::Act() {
 	default:
 		break;
 	}
+}
+
+void Enemy::TryChasePlayer() {
+	Vector2<int> toPlayerUnit(Misc::GetUnitVecTowardsTarget(GetPosition(), player->GetPosition()));
+	const MapNode* nextMapNode = map->GetNode(GetPosition() + toPlayerUnit);
+
+	if (nextMapNode->GetType() == MapNodeType::Water) return;
+	if (!nextMapNode->isFree) return;
+
+	SetPositionRel(toPlayerUnit);
 }

@@ -4,24 +4,8 @@
 #include "Debugger.h"
 #include "Player.h"
 
-void Player::OnNotify(const Entity* entity, Event event) {
-	switch (event) {
-	case Event::AIR_EMPTY:
-	case Event::HEALTH_EMPTY:
-		isAlive = false;
-		Debugger::instance().ShowInfo("\nthis gets called");
-		break;
-	default:
-		break;
-	}
-}
-
-bool Player::IsAlive() const {
-	return isAlive;
-}
-
 void Player::ManageAir() {
-	while (isAlive) {
+	while (IsAlive()) {
 		(isInWater) ? air.Decrease(1) : air.Increase(1);
 
 		std::chrono::milliseconds sleepDuration(waterAirTime);
@@ -40,23 +24,17 @@ void Player::SetPositionRel(int xVel, int yVel) {
 	Entity::SetPositionRel(xVel, yVel);
 }
 
-int Player::GetHealth() const {
-	return health.GetAmount();
-}
-
 int Player::GetAir() const {
 	return air.GetAmount();
 }
 
 void Player::Damage(int damage) {
-	health.Decrease(damage);
+	flash();
+	Actor::Damage(damage);
 }
 
-Player::Player(const Map* map, int x, int y) : map(map), health(10, 0, 10, this, Event::HEALTH_EMPTY, Event::HEALTH_FULL), air(10, 0, 10, this, Event::AIR_EMPTY, Event::AIR_FULL),
-	isInWater(false), isAlive(true), airThread(&Player::ManageAir, this), Entity(x, y) {
-	air.AddObserver(this);
-	health.AddObserver(this);
-	isPlayer = true;
+Player::Player(Map* map, int x, int y) : Actor(x, y, 10, true, map), air(10, 0, 10, this, Event::AIR_EMPTY, Event::AIR_FULL),
+	isInWater(false), airThread(&Player::ManageAir, this) {
 }
 
 Player::~Player() {

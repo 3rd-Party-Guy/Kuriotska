@@ -23,6 +23,27 @@ const MapNode* Map::GetRandomNode() const {
 	return GetNode(randPos);
 }
 
+const void Map::SetNodeIsFree(int x, int y, bool isFree) {
+	auto iter = map.find(std::make_pair(x, y));
+
+	if (iter != map.end())
+		return;
+
+	iter->second.isFree = isFree;
+}
+
+const void Map::SetNodeIsFree(Vector2<int> pos, bool isFree) {
+	SetNodeIsFree(pos.GetX(), pos.GetY(), isFree);
+}
+
+const bool Map::GetNodeIsFree(int x, int y) const {
+	return GetNode(x, y)->isFree;
+}
+
+const bool Map::GetNodeIsFree(Vector2<int> pos) const {
+	return GetNodeIsFree(pos.GetX(), pos.GetY());
+}
+
 void Map::GenerateMap() {
 	for (int x = 0; x < sizeX; ++x)
 	for (int y = 0; y < sizeY; ++y) {

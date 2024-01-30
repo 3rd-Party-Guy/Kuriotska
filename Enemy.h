@@ -1,31 +1,30 @@
 #pragma once
 
-#include "Entity.h"
+#include "Actor.h"
 #include "Player.h"
 #include "EnemyState.h"
 #include "Source.h"
 #include "Event.h"
 
-class Enemy : public Entity
+class Enemy : public Actor
 {
 private:
 	static size_t nextID;
 
 	size_t ID;
 	int chaseDistance;
+
 	Player* player;
+	
 	EnemyState curState;
-	Source health;
 	
 	void Act();
 	void CheckState();
-
-	void OnHealthFull();
-	void OnHealthEmpty();
+	void TryChasePlayer();
 
 public:
 	const size_t GetID() const;
-	Enemy(Vector2<int> position, int chaseDistance, Player* player);
+	Enemy(Vector2<int> position, int chaseDistance, Player* player, Map* map);
 	const bool operator==(const Enemy& other) const;
 	void Update();
 };
