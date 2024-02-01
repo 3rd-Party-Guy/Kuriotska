@@ -2,14 +2,18 @@
 #include "EnemyManager.h"
 #include "Misc.h"
 
-size_t Enemy::nextID = 1;
+int Enemy::nextID = 1;
+
+int Enemy::GetNextID() {
+	return nextID;
+}
 
 Enemy::Enemy(Vector2<int> position, int chaseDistance, Player* player, Map* map) : Actor(position, 5, false, map),
 	chaseDistance(chaseDistance), curState(EnemyState::IDLE), player(player) {
 	ID = nextID++;
 }
 
-const size_t Enemy::GetID() const {
+const int Enemy::GetID() const {
 	return ID;
 }
 

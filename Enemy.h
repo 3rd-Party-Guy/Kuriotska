@@ -9,9 +9,9 @@
 class Enemy : public Actor
 {
 private:
-	static size_t nextID;
+	static int nextID;
 
-	size_t ID;
+	int ID;
 	int chaseDistance;
 
 	Player* player;
@@ -23,8 +23,9 @@ private:
 	void TryChasePlayer();
 
 public:
-	const size_t GetID() const;
+	const int GetID() const;
 	Enemy(Vector2<int> position, int chaseDistance, Player* player, Map* map);
 	const bool operator==(const Enemy& other) const;
 	void Update();
+	static int GetNextID();
 };

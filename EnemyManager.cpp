@@ -13,19 +13,21 @@ EnemyManager& EnemyManager::instance() {
 	return *instance;
 }
 
-const std::unordered_map<int, Enemy>& EnemyManager::GetEnemies() const {
+const std::unordered_map<int, Enemy*>& EnemyManager::GetEnemies() const {
 	return enemies;
 }
 
 const void EnemyManager::DamageEnemyAtPos(Vector2<int> pos, int amount) {
-	for (std::pair<const int, Enemy>& e : enemies) {
-		if (e.second.GetPosition() != pos) continue;
-		e.second.Damage(amount);
+	for (std::pair<const int, Enemy*>& e : enemies) {
+		if (e.second->GetPosition() != pos) continue;
+		e.second->Damage(amount);
 	}
 }
 
-const bool EnemyManager::AddEnemy(Enemy enemy) {
-	return enemies.try_emplace(enemy.GetID(), enemy).second;
+const bool EnemyManager::AddEnemy(Vector2<int> position, int chaseDistance, Player* player, Map* map) {
+
+	return enemies.try_emplace(Enemy::GetNextID() - 1,
+			new Enemy(position, chaseDistance, player, map)).second;
 }
 
 const bool EnemyManager::RemoveEnemy(Enemy* enemy) {
@@ -48,8 +50,8 @@ void EnemyManager::StopUpdate() {
 
 void EnemyManager::UpdateEnemies() {
 	while (shouldUpdate) {
-		for (std::pair<const int, Enemy>& e : enemies)
-			e.second.Update();
+		for (std::pair<const int, Enemy*>& e : enemies)
+			e.second->Update();
 
 		std::chrono::milliseconds sleepDuration(500);
 		std::this_thread::sleep_for(sleepDuration);

@@ -11,8 +11,8 @@ curPosIndex(1), Entity(0, 0), moveCooldown(moveCooldown), damageAmount(damageAmo
 }
 
 Vector2<int> Attack::CalculatePosition() {
-	int newX = orbitRadius * cos(curPosIndex) + target->GetPosition().GetX();
-	int newY = orbitRadius * sin(curPosIndex) + target->GetPosition().GetY();
+	int newX = std::lround(orbitRadius * cos(curPosIndex) + target->GetPosition().GetX());
+	int newY = std::lround(orbitRadius * sin(curPosIndex) + target->GetPosition().GetY());
 	
 	++curPosIndex %= 360;
 

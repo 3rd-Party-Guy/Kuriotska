@@ -101,8 +101,7 @@ int main(int argc, const char** argv) {
 			Vector2<int> randPos(Misc::RandomInRange(0, map.sizeX - 1), Misc::RandomInRange(0, map.sizeY - 1));
 			const MapNode* randNode = map.GetNode(randPos);
 			if (randNode->GetType() == MapNodeType::Water) continue;
-			
-			EnemyManager::instance().AddEnemy(Enemy(randPos, 10, &player, &map));
+			EnemyManager::instance().AddEnemy(randPos, 10, &player, &map);
 			break;
 		}
 	}
