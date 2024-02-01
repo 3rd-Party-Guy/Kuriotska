@@ -21,7 +21,7 @@ private:
 	void Act();
 	void CheckState();
 	void TryChasePlayer();
-
+	void OnDeath() override;
 public:
 	const int GetID() const;
 	Enemy(Vector2<int> position, int chaseDistance, Player* player, Map* map);

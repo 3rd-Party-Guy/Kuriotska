@@ -85,3 +85,8 @@ void Enemy::TryChasePlayer() {
 
 	SetPositionRel(toPlayerUnit);
 }
+
+void Enemy::OnDeath() {
+	Actor::OnDeath();
+	EnemyManager::instance().RemoveEnemy(this);
+}
