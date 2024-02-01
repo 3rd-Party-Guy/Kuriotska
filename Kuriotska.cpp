@@ -22,6 +22,8 @@
 
 #define ENEMY_COUNT 250
 
+#define PLAYER_START_ATTACK_AMOUNT 5
+
 bool isInitialized = false;
 
 std::string loadingStatusArr[10] = {
@@ -85,7 +87,7 @@ int main(int argc, const char** argv) {
 	Map map(MAP_WIDTH, MAP_HEIGHT);
 
 	// Spawn Player on Random Sand Node
-	Player player(&map, 0, 0);
+	Player player(&map, 0, 0, PLAYER_START_ATTACK_AMOUNT);
 	while (true) {
 		Vector2<int> randPos(Misc::RandomInRange(0, map.sizeX - 1), Misc::RandomInRange(0, map.sizeY - 1));
 		const MapNode* randNode = map.GetNode(randPos);
@@ -95,16 +97,19 @@ int main(int argc, const char** argv) {
 		}
 	}
 
-	// Spawn Enemies on Non-Water Nodes
-	for (int i = 0; i < ENEMY_COUNT; ++i) {
-		while (true) {
-			Vector2<int> randPos(Misc::RandomInRange(0, map.sizeX - 1), Misc::RandomInRange(0, map.sizeY - 1));
-			const MapNode* randNode = map.GetNode(randPos);
-			if (randNode->GetType() == MapNodeType::Water) continue;
-			EnemyManager::instance().AddEnemy(randPos, 10, &player, &map);
-			break;
-		}
-	}
+	EnemyManager::instance().GivePlayer(&player);
+	EnemyManager::instance().GiveMap(&map);
+
+	//// Spawn Enemies on Non-Water Nodes
+	//for (int i = 0; i < ENEMY_COUNT; ++i) {
+	//	while (true) {
+	//		Vector2<int> randPos(Misc::RandomInRange(0, map.sizeX - 1), Misc::RandomInRange(0, map.sizeY - 1));
+	//		const MapNode* randNode = map.GetNode(randPos);
+	//		if (randNode->GetType() == MapNodeType::Water) continue;
+	//		EnemyManager::instance().AddEnemy(randPos, 10, &player, &map);
+	//		break;
+	//	}
+	//}
 
 	MapRenderer mapRenderer(&map, &player, MAP_WINDOW_WIDTH, MAP_WINDOW_HEIGHT);
 	InputHandler inputHandler(&player);

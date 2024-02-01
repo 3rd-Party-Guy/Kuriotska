@@ -12,9 +12,9 @@ private:
 	bool hasPriority;															// means can walk on non-free nodes
 
 	virtual void OnNotify(const Entity* entity, Event event);
-	Source health;
 
 protected:
+	Source health;
 	Map* map;
 
 public:

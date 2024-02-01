@@ -3,8 +3,10 @@
 #include <chrono>
 #include <string>
 
-#include "Misc.h"
 #include "Player.h"
+#include "EnemyManager.h"
+#include "Misc.h"
+#include "Debugger.h"
 
 void Player::ManageAir() {
 	while (IsAlive()) {
@@ -24,9 +26,14 @@ void Player::SetPositionRel(int xVel, int yVel) {
 	isInWater = (newNode->GetType() == MapNodeType::Water);
 
 	Entity::SetPositionRel(xVel, yVel);
+	EnemyManager::instance().DamageEnemyAtPos(GetPosition(), 1);
 }
 
-int Player::GetAir() const {
+const int Player::GetLevel() const {
+	return level;
+}
+
+const int Player::GetAir() const {
 	return air.GetAmount();
 }
 
@@ -35,13 +42,36 @@ void Player::Damage(int damage) {
 	Actor::Damage(damage);
 }
 
+void Player::GetKill() {
+	--killsUntilNextLevel;
+
+	// Level Up
+	if (killsUntilNextLevel <= 0) {
+		level++;
+		health.Increase(Misc::RandomInRange(1, 2));
+
+		double curAttacksAmount = attacksAmount;
+		attacksAmount = pow(attacksAmount, 1.125);
+		
+		std::string debugInfo = std::to_string(curAttacksAmount) + ", " +
+			std::to_string(attacksAmount);
+
+		Debugger::instance().ShowInfo(debugInfo);
+
+		for (int i = curAttacksAmount; i < attacksAmount; ++i)
+			AddAttack();
+		
+		killsUntilNextLevel = level * 2;
+	}
+}
+
 const std::vector<std::unique_ptr<Attack>>& Player::GetAttacks() const {
 	return attacks;
 }
 
 void Player::AddAttack() {
 	int orbitRadius = Misc::RandomInRange(1, 10);
-	int moveCooldown = Misc::RandomInRange(50, 1000);
+	int moveCooldown = Misc::RandomInRange(10, 250);
 	int damageAmount = Misc::RandomInRange(4, 4);
 
 	attacks.push_back(std::make_unique<Attack>
@@ -60,20 +90,12 @@ void Player::OnNotify(const Entity* entity, Event event) {
 	}
 }
 
-Player::Player(Map* map, int x, int y) : Actor(x, y, 10, true, map), air(10, 0, 10, this, Event::AIR_EMPTY, Event::AIR_FULL),
-	isInWater(false), airThread(&Player::ManageAir, this) {
+Player::Player(Map* map, int x, int y, int startAttackAmount) : Actor(x, y, 10, true, map), air(10, 0, 10, this, Event::AIR_EMPTY, Event::AIR_FULL),
+	isInWater(false), airThread(&Player::ManageAir, this), level(1), killsUntilNextLevel(2) {
 	air.AddObserver(this);
-	AddAttack();
-	AddAttack();
-	AddAttack();
-	AddAttack();
-	AddAttack();
-	AddAttack();
-	AddAttack();
-	AddAttack();
-	AddAttack();
-	AddAttack();
-	AddAttack();
+	attacksAmount = startAttackAmount;
+	for (int i = 0; i < attacksAmount; ++i)
+		AddAttack();
 }
 
 Player::~Player() {

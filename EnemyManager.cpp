@@ -1,8 +1,15 @@
 #include <chrono>
 
 #include "EnemyManager.h"
+#include "Misc.h"
 
-EnemyManager::EnemyManager() : shouldUpdate(true) { }
+Player* EnemyManager::player = nullptr;
+Map* EnemyManager::map = nullptr;
+
+EnemyManager::EnemyManager() : shouldUpdate(true) {
+	spawnAmount = 25;
+	timeUntilNextSpawn = 0.0;
+}
 
 EnemyManager::~EnemyManager() {
 	enemies.clear();
@@ -11,6 +18,14 @@ EnemyManager::~EnemyManager() {
 EnemyManager& EnemyManager::instance() {
 	static EnemyManager* instance = new EnemyManager();
 	return *instance;
+}
+
+void EnemyManager::GivePlayer(Player* playerPtr) {
+	player = playerPtr;
+}
+
+void EnemyManager::GiveMap(Map* mapPtr) {
+	map = mapPtr;
 }
 
 const std::unordered_map<int, Enemy*>& EnemyManager::GetEnemies() const {
@@ -40,6 +55,13 @@ const bool EnemyManager::RemoveEnemy(Enemy* enemy) {
 	return true;
 }
 
+void EnemyManager::SpawnEnemy() {
+	Vector2<int> randPos(Misc::RandomInRange(0, map->sizeX - 1), Misc::RandomInRange(0, map->sizeY - 1));
+	const MapNode* randNode = map->GetNode(randPos);
+	if (randNode->GetType() != MapNodeType::Water)
+		AddEnemy(randPos, 10, player, map);
+}
+
 void EnemyManager::StartUpdate() {
 	shouldUpdate = true;
 	updateThread = std::thread(&EnemyManager::UpdateEnemies, this);
@@ -51,6 +73,19 @@ void EnemyManager::StopUpdate() {
 
 void EnemyManager::UpdateEnemies() {
 	while (shouldUpdate) {
+		int playerLevel = player->GetLevel();
+		timeUntilNextSpawn -= 0.5;
+
+		if (timeUntilNextSpawn <= 0.01) {
+			for (int i = 0; i < spawnAmount; ++i) {
+				SpawnEnemy();
+			}
+
+			spawnAmount = std::ceil(pow(playerLevel, 2) / 0.25);
+			timeUntilNextSpawn = pow(playerLevel, 2) / pow(playerLevel, 3) + 0.125;
+		}
+
+
 		for (std::pair<const int, Enemy*>& e : enemies)
 			e.second->Update();
 

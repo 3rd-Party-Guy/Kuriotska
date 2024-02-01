@@ -18,9 +18,17 @@ private:
 	std::unordered_map<int, Enemy*> enemies;
 	std::thread updateThread;
 	bool shouldUpdate;
+	static Player* player;
+	static Map* map;
 
+	int spawnAmount;
+	double timeUntilNextSpawn;
+
+	void SpawnEnemy();
 public:
 	static EnemyManager& instance();
+	static void GivePlayer(Player* playerPtr);
+	static void GiveMap(Map* mapPtr);
 	const std::unordered_map<int, Enemy*>& GetEnemies() const;
 	const void DamageEnemyAtPos(Vector2<int> pos, int amount);
 	const bool AddEnemy(Vector2<int> position, int chaseDistance, Player* player, Map* map);							// returns true and inserts if key not found, otherwise returns false

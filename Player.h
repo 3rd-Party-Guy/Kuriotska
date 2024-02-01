@@ -24,14 +24,20 @@ private:
 	void ManageAir();
 	virtual void OnNotify(const Entity* entity, Event event) override;
 	void SetPositionRel(int xVel, int yVel) override;
+	
+	int level;
+	int killsUntilNextLevel;
+	double attacksAmount;
 
 public:
-	int GetAir() const;
+	const int GetLevel() const;
+	const int GetAir() const;
 	void Damage(int damage) override;
 	const std::vector<std::unique_ptr<Attack>>& GetAttacks() const;
 	
 	void AddAttack();
+	void GetKill();
 
-	Player(Map* map, int x, int y);
+	Player(Map* map, int x, int y, int startAttackAmount);
 	~Player();
 };

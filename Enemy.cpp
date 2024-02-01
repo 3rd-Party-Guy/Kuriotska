@@ -88,5 +88,6 @@ void Enemy::TryChasePlayer() {
 
 void Enemy::OnDeath() {
 	Actor::OnDeath();
+	player->GetKill();
 	EnemyManager::instance().RemoveEnemy(this);
 }
