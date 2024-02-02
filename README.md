@@ -11,3 +11,6 @@ You will need to link a valid version of curses to the project for it to compile
 ⏳Add Timer & Game-Over Screen
 ⏳Add Start-Up Menu
 ⏳Add Sound
+## Screenshots
+![Gameplay Screenshot 1](https://i.imgur.com/DqXtiR0.png)
+![Gameplay Screenshot 2](https://i.imgur.com/dK9cnoY.png)
