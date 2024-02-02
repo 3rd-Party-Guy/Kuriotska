@@ -20,12 +20,16 @@ Vector2<int> Attack::CalculatePosition() {
 	return Vector2<int>(newX , newY);
 }
 
+void Attack::Move() {
+	SetPositionAbs(CalculatePosition());
+	EnemyManager::instance().DamageEnemyAtPos(GetPosition(), damageAmount);
+	timeUntilNextMove.Increase(moveCooldownInSeconds);
+}
+
 void Attack::OnNotify(const Entity* entity, Event event) {
 	switch (event) {
 	case Event::SOURCE_EMPTY:
-		SetPositionAbs(CalculatePosition());
-		EnemyManager::instance().DamageEnemyAtPos(GetPosition(), damageAmount);
-		timeUntilNextMove.Increase(moveCooldownInSeconds);
+		Move();
 		break;
 	default:
 		break;

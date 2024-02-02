@@ -24,6 +24,7 @@ private:
 	Vector2<int> CalculatePosition();
 
 	void OnNotify(const Entity* entity, Event event);
+	void Move();
 public:
 	Attack(Entity* target, int orbitRadius, double moveCooldown, int damageAmount);
 	void Update(double deltaTime);

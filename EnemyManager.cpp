@@ -81,7 +81,7 @@ void EnemyManager::UpdateEnemies() {
 				SpawnEnemy();
 			}
 
-			spawnAmount = std::ceil(pow(playerLevel, 2) / 0.25);
+			spawnAmount = static_cast<int>(std::ceil(pow(playerLevel, 2) / 0.25));
 			timeUntilNextSpawn = pow(playerLevel, 2) / pow(playerLevel, 3) + 0.125;
 		}
 		
