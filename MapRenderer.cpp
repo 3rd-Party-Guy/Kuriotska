@@ -118,7 +118,7 @@ void MapRenderer::RenderEnemies() const {
 }
 
 void MapRenderer::RenderPlayerAttacks() const {
-	const std::vector<std::unique_ptr<Attack>>& playerAttacks = player->GetAttacks();
+	const std::unordered_set<std::unique_ptr<Attack>>& playerAttacks = player->GetAttacks();
 	chtype graphic = mapNodeTypeGraphicLookup[MapNodeType::Attack];
 	int colorID = mapNodeTypeColorLookup[MapNodeType::Attack];
 

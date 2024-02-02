@@ -2,7 +2,7 @@
 
 #include <thread>
 #include <memory>
-#include <vector>
+#include <unordered_set>
 
 #include "Actor.h"
 #include "Observer.h"
@@ -19,7 +19,7 @@ private:
 	unsigned short waterAirTime = 500;															// In Milliseconds
 	std::thread airThread;
 	
-	std::vector<std::unique_ptr<Attack>> attacks;
+	std::unordered_set<std::unique_ptr<Attack>> attacks;
 	
 	void ManageAir();
 	virtual void OnNotify(const Entity* entity, Event event) override;
@@ -33,7 +33,7 @@ public:
 	const int GetLevel() const;
 	const int GetAir() const;
 	void Damage(int damage) override;
-	const std::vector<std::unique_ptr<Attack>>& GetAttacks() const;
+	const std::unordered_set<std::unique_ptr<Attack>>& GetAttacks() const;
 	
 	void AddAttack();
 	void GetKill();

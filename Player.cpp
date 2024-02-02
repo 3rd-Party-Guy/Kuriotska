@@ -65,7 +65,7 @@ void Player::GetKill() {
 	}
 }
 
-const std::vector<std::unique_ptr<Attack>>& Player::GetAttacks() const {
+const std::unordered_set<std::unique_ptr<Attack>>& Player::GetAttacks() const {
 	return attacks;
 }
 
@@ -74,7 +74,7 @@ void Player::AddAttack() {
 	int moveCooldown = Misc::RandomInRange(10, 250);
 	int damageAmount = Misc::RandomInRange(4, 4);
 
-	attacks.push_back(std::make_unique<Attack>
+	attacks.insert(std::make_unique<Attack>
 		(this, orbitRadius, moveCooldown, damageAmount)
 	);
 }
