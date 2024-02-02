@@ -50,7 +50,7 @@ void Player::GetKill() {
 		level++;
 		health.Increase(Misc::RandomInRange(1, 2));
 
-		double curAttacksAmount = attacksAmount;
+		int curAttacksAmount = attacksAmount;
 		attacksAmount = pow(attacksAmount, 1.125);
 		
 		std::string debugInfo = std::to_string(curAttacksAmount) + ", " +

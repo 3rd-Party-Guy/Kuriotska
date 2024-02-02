@@ -27,7 +27,7 @@ private:
 	
 	int level;
 	int killsUntilNextLevel;
-	double attacksAmount;
+	int attacksAmount;
 
 public:
 	const int GetLevel() const;
