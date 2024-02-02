@@ -33,7 +33,7 @@ struct Misc {
 
 	static double RandomInRange(const double minInclusive, const double maxInclusive) {
 		static thread_local std::mt19937 gen(std::random_device{}());
-		std::uniform_real_distribution<double> dist(minInclusive, maxInclusive);
+		std::uniform_real_distribution<double> dist(minInclusive, maxInclusive + 1.0e-9);
 
 		return dist(gen);
 	}

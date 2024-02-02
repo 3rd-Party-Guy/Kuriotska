@@ -71,7 +71,7 @@ const std::unordered_set<std::unique_ptr<Attack>>& Player::GetAttacks() const {
 
 void Player::AddAttack() {
 	int orbitRadius = Misc::RandomInRange(1, 10);
-	int moveCooldown = Misc::RandomInRange(1.0, 5.0);
+	double moveCooldown = Misc::RandomInRange(0.01, 0.5);
 	int damageAmount = Misc::RandomInRange(4, 4);
 
 	attacks.insert(std::make_unique<Attack>
