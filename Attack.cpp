@@ -4,10 +4,11 @@
 #include "Attack.h"
 #include "EnemyManager.h"
 
-Attack::Attack(Entity* newTarget, int orbitRadius, int moveCooldown, int damageAmount) : target(newTarget), orbitRadius(orbitRadius),
-curPosIndex(1), Entity(0, 0), moveCooldown(moveCooldown), damageAmount(damageAmount) {
+Attack::Attack(Entity* newTarget, int orbitRadius, double moveCooldown, int damageAmount) : target(newTarget), orbitRadius(orbitRadius),
+curPosIndex(1), Entity(0, 0), moveCooldownInSeconds(moveCooldown), damageAmount(damageAmount),
+timeUntilNextMove(moveCooldown, 0, moveCooldown, this, Event::SOURCE_EMPTY, Event::SOURCE_FULL) {
 	SetPositionAbs(newTarget->GetPosition());
-	updateThread = std::thread(&Attack::Update, this);
+	timeUntilNextMove.AddObserver(this);
 }
 
 Vector2<int> Attack::CalculatePosition() {
@@ -19,11 +20,18 @@ Vector2<int> Attack::CalculatePosition() {
 	return Vector2<int>(newX , newY);
 }
 
-void Attack::Update() {
-	while (true) {
+void Attack::OnNotify(const Entity* entity, Event event) {
+	switch (event) {
+	case Event::SOURCE_EMPTY:
 		SetPositionAbs(CalculatePosition());
 		EnemyManager::instance().DamageEnemyAtPos(GetPosition(), damageAmount);
-
-		std::this_thread::sleep_for(moveCooldown);
+		timeUntilNextMove.Increase(moveCooldownInSeconds);
+		break;
+	default:
+		break;
 	}
+}
+
+void Attack::Update(double deltaTime) {
+	timeUntilNextMove.Decrease(deltaTime);
 }

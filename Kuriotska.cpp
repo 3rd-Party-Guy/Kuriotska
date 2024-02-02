@@ -100,17 +100,6 @@ int main(int argc, const char** argv) {
 	EnemyManager::instance().GivePlayer(&player);
 	EnemyManager::instance().GiveMap(&map);
 
-	//// Spawn Enemies on Non-Water Nodes
-	//for (int i = 0; i < ENEMY_COUNT; ++i) {
-	//	while (true) {
-	//		Vector2<int> randPos(Misc::RandomInRange(0, map.sizeX - 1), Misc::RandomInRange(0, map.sizeY - 1));
-	//		const MapNode* randNode = map.GetNode(randPos);
-	//		if (randNode->GetType() == MapNodeType::Water) continue;
-	//		EnemyManager::instance().AddEnemy(randPos, 10, &player, &map);
-	//		break;
-	//	}
-	//}
-
 	MapRenderer mapRenderer(&map, &player, MAP_WINDOW_WIDTH, MAP_WINDOW_HEIGHT);
 	InputHandler inputHandler(&player);
 	PlayerInfoRenderer infoRenderer(&player, MAP_WINDOW_WIDTH, MAP_WINDOW_HEIGHT);
@@ -122,12 +111,20 @@ int main(int argc, const char** argv) {
 
 	EnemyManager::instance().StartUpdate();
 
+	auto startTime = std::chrono::high_resolution_clock::now();
+
 	bool run = true;
 	while (run) {
+		auto curTime = std::chrono::high_resolution_clock::now();
+		std::chrono::duration<double> deltaTime = std::chrono::duration_cast<std::chrono::duration<double>>(curTime - startTime);
+		startTime = curTime;
+
 		inputHandler.HandleInput();
 		mapRenderer.RenderMap();
 		mapRenderer.CenterSelf();
 		infoRenderer.RenderInfo();
+		player.UpdateAttacks(deltaTime.count());
+
 		run = player.IsAlive();
 	}
 

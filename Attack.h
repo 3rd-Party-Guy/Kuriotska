@@ -3,10 +3,12 @@
 #include <thread>
 #include <chrono>
 
+#include "Source.h"
+#include "Observer.h"
 #include "Entity.h"
 #include "Vector2.h"
 
-class Attack : public Entity
+class Attack : public Entity, Observer
 {
 private:
 	int orbitRadius;
@@ -14,14 +16,15 @@ private:
 
 	int damageAmount;
 
-	std::chrono::milliseconds moveCooldown;
+	double moveCooldownInSeconds;
+	Source<double> timeUntilNextMove;
 
 	const Entity* target;
-	std::thread updateThread;
 
 	Vector2<int> CalculatePosition();
 
+	void OnNotify(const Entity* entity, Event event);
 public:
-	Attack(Entity* target, int orbitRadius, int moveCooldown, int damageAmount);
-	void Update();
+	Attack(Entity* target, int orbitRadius, double moveCooldown, int damageAmount);
+	void Update(double deltaTime);
 };

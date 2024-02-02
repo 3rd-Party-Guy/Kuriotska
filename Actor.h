@@ -14,7 +14,7 @@ private:
 	virtual void OnNotify(const Entity* entity, Event event);
 
 protected:
-	Source health;
+	Source<unsigned short> health;
 	Map* map;
 
 public:

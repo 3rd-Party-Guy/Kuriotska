@@ -31,6 +31,13 @@ struct Misc {
 		return dist(gen);
 	}
 
+	static double RandomInRange(const double minInclusive, const double maxInclusive) {
+		static thread_local std::mt19937 gen(std::random_device{}());
+		std::uniform_real_distribution<double> dist(minInclusive, maxInclusive);
+
+		return dist(gen);
+	}
+
 	static int CalculateDistanceEuclidean(const Vector2<int> a, const Vector2<int> b) {
 		double distance = sqrt(pow(b.GetX() - a.GetX(), 2) + pow(b.GetY() - a.GetY(), 2));
 		return (int)std::floor(distance);

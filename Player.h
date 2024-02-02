@@ -15,7 +15,7 @@ class Player : public Actor
 {
 private:
 	bool isInWater;
-	Source air;
+	Source<unsigned short> air;
 	unsigned short waterAirTime = 500;															// In Milliseconds
 	std::thread airThread;
 	
@@ -36,6 +36,7 @@ public:
 	const std::unordered_set<std::unique_ptr<Attack>>& GetAttacks() const;
 	
 	void AddAttack();
+	void UpdateAttacks(double deltaTime);
 	void GetKill();
 
 	Player(Map* map, int x, int y, int startAttackAmount);

@@ -132,7 +132,6 @@ void MapRenderer::RenderPlayer() const {
 	const Vector2<int> curPlayerPos = player->GetPosition();
 	
 	RenderNode(curPlayerPos, colorID, graphic);
-
 }
 
 void MapRenderer::RenderMap() const {

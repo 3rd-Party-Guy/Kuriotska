@@ -71,12 +71,18 @@ const std::unordered_set<std::unique_ptr<Attack>>& Player::GetAttacks() const {
 
 void Player::AddAttack() {
 	int orbitRadius = Misc::RandomInRange(1, 10);
-	int moveCooldown = Misc::RandomInRange(10, 250);
+	int moveCooldown = Misc::RandomInRange(1.0, 5.0);
 	int damageAmount = Misc::RandomInRange(4, 4);
 
 	attacks.insert(std::make_unique<Attack>
 		(this, orbitRadius, moveCooldown, damageAmount)
 	);
+}
+
+void Player::UpdateAttacks(double deltaTime) {
+	for (auto& attack : attacks) {
+		attack->Update(deltaTime);
+	}
 }
 
 void Player::OnNotify(const Entity* entity, Event event) {

@@ -1,12 +1,14 @@
 #include "Source.h"
 #include "Event.h"
 
-Source::Source(int amount, int min, int max, Entity* owner, Event eventOnEmpty, Event eventOnFull) :
+template <class T>
+Source<T>::Source(T amount, T min, T max, Entity* owner, Event eventOnEmpty, Event eventOnFull) :
 	amount(amount), min(min), max(max), owner(owner), eventOnEmpty(eventOnEmpty), eventOnFull(eventOnFull) {
 	isEmpty = (amount <= 0);
 }
 
-void Source::Increase(unsigned a) {
+template <class T>
+void Source<T>::Increase(T a) {
 	amount += a;
 
 	if (amount >= max) {
@@ -15,7 +17,8 @@ void Source::Increase(unsigned a) {
 	}
 }
 
-void Source::Decrease(unsigned a) {
+template <class T>
+void Source<T>::Decrease(T a) {
 	amount -= a;
 
 	if (amount <= min) {
@@ -24,6 +27,11 @@ void Source::Decrease(unsigned a) {
 	}
 }
 
-int Source::GetAmount() const {
+template <class T>
+T Source<T>::GetAmount() const {
 	return amount;
 }
+
+template class Source<int>;
+template class Source<double>;
+template class Source<unsigned short>;
