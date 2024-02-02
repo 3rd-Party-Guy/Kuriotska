@@ -6,7 +6,7 @@ The game was written exclusively in C++, with curses being the only dependency. 
 ## How do I build the game?
 You will need to link a valid version of curses to the project for it to compile. I am writing the game with pdcurses in Visual Studio 2022.
 ## Tasks
-⏳Make Player Attacks more Memory-Efficient
+✔️Make Player Attacks more Memory-Efficient
 <br>
 ⏳Improve EnemyManager dependency-linkage
 <br>
